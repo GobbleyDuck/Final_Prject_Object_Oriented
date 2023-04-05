@@ -1,5 +1,5 @@
 #pragma once
-#include "wire.h"
+//#include "wire.h"
 
 class Wire;
 
