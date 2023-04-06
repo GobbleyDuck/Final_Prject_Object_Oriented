@@ -127,17 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="andGate.h" />
     <ClInclude Include="gate.h" />
-    <ClInclude Include="orGate.h" />
     <ClInclude Include="wire.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="andGate.cpp" />
     <ClCompile Include="gate.cpp" />
-    <ClCompile Include="notGate.cpp" />
-    <ClCompile Include="notGate.h" />
-    <ClCompile Include="orGate.cpp" />
     <ClCompile Include="wire.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
