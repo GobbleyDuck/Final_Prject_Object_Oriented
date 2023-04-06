@@ -9,7 +9,14 @@ class Wire;
 
 class Gate {
 public:
-	Gate(string type, int delay, Wire* output, Wire* input1, Wire* input2) {};
+	//constructors
+	Gate(string type, int delay, Wire* output, Wire* input1, Wire* input2) {
+		this->type = type;
+		this->delay = delay;
+		this->output = output;
+		setInput(input1);
+		setInput(input2);
+	};
 
 	//getters
 	int getDelay()const {return delay;}
@@ -21,7 +28,8 @@ public:
 	//function prototypes
 	void setType(string type);
 	void setDelay(int delay);
-	void setInput(int inputNumber, Wire* input);
+	void setInput(Wire* input);
+	void evaluate()const;
 
 	//TODO: returnVal evaluate(parms)
 

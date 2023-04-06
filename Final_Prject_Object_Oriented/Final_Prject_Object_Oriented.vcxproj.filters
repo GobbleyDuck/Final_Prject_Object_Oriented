@@ -21,12 +21,30 @@
     <ClInclude Include="gate.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="andGate.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="orGate.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wire.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="notGate.h">
+      <Filter>Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="andGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="orGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="notGate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

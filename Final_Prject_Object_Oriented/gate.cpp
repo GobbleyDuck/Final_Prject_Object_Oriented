@@ -8,7 +8,12 @@ void Gate::setDelay(int delay) {
 	this->delay = delay;
 }
 
-//TODO prepare as a vector
-void Gate::setInput(int inputNumber, Wire* input) {
+//TODO: make setInput take in multiple parameters
+void Gate::setInput(Wire* input) {
+	inputs.push_back(input);
+}
+
+//TODO: make it return something
+void Gate::evaluate()const {
 
 }
