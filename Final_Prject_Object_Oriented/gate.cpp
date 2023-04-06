@@ -15,5 +15,13 @@ void Gate::setInput(Wire* input) {
 
 //TODO: make it return something
 void Gate::evaluate()const {
+	if (type == "AND") {
 
+	}
+	if (type == "OR") {
+
+	}
+	if (type == "notGate") {
+
+	}
 }
