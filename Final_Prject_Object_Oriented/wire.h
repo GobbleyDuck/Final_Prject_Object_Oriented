@@ -14,23 +14,23 @@ class Gate;
 class Wires {
 
 public:
-	Wires(string n = "", char v = '\0', Gate* gate = nullptr, int i = 0, string h = "");	//constructor
+	Wires(int, string);	//constructor
 
 	string getName()const { return name; }
-	char getValue()const { return value; }
+	char getState()const { return state; }
 	vector<Gate*> getDrives() const { return drives; }
 	int getIndex() const { return index; }
 	string getHistory() const { return history; }
 
-	void addGate(vector <Gate*>);
-	void setState(string);
-	void setHistory(string, int);
+	void addGate(Gate*);
+	void setState(char);
+	void setHistory(char, int);
 
 	void printHistory();
 
 private:
 	string name;
-	string state;
+	char state;
 	vector <Gate*> drives;
 	int index;
 	string history;
