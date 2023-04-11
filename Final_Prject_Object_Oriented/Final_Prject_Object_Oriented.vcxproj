@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gate.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="notGate.cpp" />
     <ClCompile Include="notGate.h" />
     <ClCompile Include="orGate.cpp" />

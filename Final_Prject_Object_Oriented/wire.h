@@ -11,10 +11,10 @@ using namespace std;
 
 class Gate;
 
-class Wires {
+class Wire {
 
 public:
-	Wires(int, string);	//constructor
+	Wire(int, string);	//constructor
 
 	string getName()const { return name; }
 	char getState()const { return state; }
