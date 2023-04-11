@@ -15,18 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="wires.h">
+    <ClInclude Include="gate.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="gate.h">
+    <ClInclude Include="orGate.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="wire.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="wires.cpp">
+    <ClCompile Include="gate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gate.cpp">
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="notGate.h">
+      <Filter>Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="wire.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

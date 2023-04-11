@@ -1,6 +1,4 @@
 #include "gate.cpp"
-#include "notGate.cpp"
-#include "orGate.cpp"
 #include "wire.cpp"
 #include <iostream>
 #include <fstream>			//includes both ifstream and ofstream
@@ -16,6 +14,7 @@ int main(){
 		cerr << "Error opening file";
 	}
 
+						
 
 
 
@@ -28,6 +27,7 @@ int main(){
 
 
 
+	circDoc.close();				//need to close document at end
 	return 0;
 }
 
