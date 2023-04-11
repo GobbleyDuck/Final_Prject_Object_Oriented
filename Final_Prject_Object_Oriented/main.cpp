@@ -10,7 +10,11 @@ using namespace std;
 
 int main(){
 	ifstream circDoc;
-	
+	circDoc.open("input.txt");
+
+	if (circDoc.is_open() == false) {		//return error message if file not opened properly
+		cerr << "Error opening file";
+	}
 
 
 
