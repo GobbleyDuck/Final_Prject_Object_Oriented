@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="wire.h">
+    <ClInclude Include="wires.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="gate.h">
@@ -29,7 +29,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="wire.cpp">
+    <ClCompile Include="wires.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gate.cpp">

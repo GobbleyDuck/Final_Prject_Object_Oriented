@@ -130,7 +130,7 @@
     <ClInclude Include="andGate.h" />
     <ClInclude Include="gate.h" />
     <ClInclude Include="orGate.h" />
-    <ClInclude Include="wire.h" />
+    <ClInclude Include="wires.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="andGate.cpp" />
@@ -138,7 +138,7 @@
     <ClCompile Include="notGate.cpp" />
     <ClCompile Include="notGate.h" />
     <ClCompile Include="orGate.cpp" />
-    <ClCompile Include="wire.cpp" />
+    <ClCompile Include="wires.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
