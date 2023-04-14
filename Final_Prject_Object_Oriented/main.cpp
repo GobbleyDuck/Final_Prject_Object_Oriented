@@ -29,14 +29,14 @@ int main(){
 	}
 	
 
-	//for wires
+	//for wires - would it be better to just get the entire line, put it into a string, then parse the data from there?
 	circDoc >> inputType;
 	if (inputType == "INPUT" || inputType == "OUTPUT") {
 		circDoc >> inputType >> wireName >> wireIndex;
 		Wire(wireName, wireIndex);
 	}
 
-	//for gates
+	//for gates 
 	circDoc >> inputType;
 	if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
 		circDoc >> inputType >> gateDelay;
