@@ -1,6 +1,6 @@
 #include "wire.h"
 
-Wire::Wire(int i = 0, string n = "") {
+Wire::Wire(string n = "", int i = 0) {
 	name = n;
 	state = 'X';
 	index = i;
