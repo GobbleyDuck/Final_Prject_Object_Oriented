@@ -1,64 +1,64 @@
-#include "gate.cpp"
-#include "wire.cpp"
+#include "gate.h"
+#include "wire.h"
 #include <iostream>
-#include <fstream>			//includes both ifstream and ofstream
+#include <fstream>
 
 using namespace std;
 
+int main() {
+    //TODO: turn wireIndex into an array [3]
+    string wireName;
+    int wireIndex[3] = {0,0,0};
+    int gateDelay;
+    vector<Wire> wireVctr;
+    vector<Gate> gateVctr;
 
-int main(){
-	string wireName;
-	int wireIndex;
-	int gateDelay;
+    ifstream circDoc("input.txt");
 
-	ifstream circDoc;
-	circDoc.open("input.txt");
+    //----------------------------- OPEN TEXT FILE --------------------------------------------
 
-	if (!circDoc.is_open()) {		//return error message if file not opened properly
-		cerr << "Error opening file";
-		return 1;
-	}
+    if (!circDoc.is_open()) {
+        cerr << "Error opening file" << endl;
+        return 1;
+    }
 
-	string inputType;
+    string inputType;
 
-	circDoc >> inputType;
+    //------------------------------- READ FILE --------------------------------------------------
 
-	if (inputType == "CIRCUIT") {
-		//what do we do with the first line...?
+    circDoc >> inputType;
 
-	}
-	
+    //validates the name
+    if (inputType == "CIRCUIT") {
+        string circuitName;
+        circDoc >> circuitName;
+        cout << "Circuit name: " << circuitName << endl;
 
-	//for wires - would it be better to just get the entire line, put it into a string, then parse the data from there?
-	circDoc >> inputType;
-	if (inputType == "INPUT" || inputType == "OUTPUT") {
-		circDoc >> inputType >> wireName >> wireIndex;
-		Wire(wireName, wireIndex);
-	}
+        while (circDoc >> inputType) {
+            if (inputType == "INPUT" || inputType == "OUTPUT") {
+                circDoc >> inputType >> wireName >> wireIndex[0];
+                Wire wire(wireName, wireIndex[0]);
+                wireVctr.push_back(wire);
+            }
 
-	//for gates 
-	circDoc >> inputType;
-	if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
-		circDoc >> inputType >> gateDelay;
-		//set gate type to inputType
-		//set gate delay to gateDelay
-		//take in inputs and put into inputs vector
-		//take in last int on line and set to wire* output
-	}
+            if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
+                circDoc >> gateDelay;
+                if (inputType != "NOT") {
+                    for (int i = 0; i < 3; i++) { circDoc >> wireIndex[i]; }
+                    Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1], wireIndex[2]);
+                }
+                //TODO: issue with the NOT gate in gate.h initialization
+                else {
+                    for (int i = 0; i < 2; i++) { circDoc >> wireIndex[i]; }
+                    //TODO: finish gate initialization
+                    Gate gate();
+                }
+                gateVctr.push_back(gate);
+                
+            }
+        }
+    }
 
-	
-
-
-
-
-
-
-
-
-
-
-
-	circDoc.close();				//need to close document at end
-	return 0;
+    circDoc.close();
+    return 0;
 }
-
