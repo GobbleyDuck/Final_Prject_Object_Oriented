@@ -10,6 +10,10 @@ using namespace std;
 * TODO:
 * Make it optional for the user to select a file
 * revise gate constructors to take a dynamic amount of wires
+* Create Vector
+* Create Event
+* Create Simulate
+* Create Print
 */
 
 int main() {
@@ -55,13 +59,13 @@ int main() {
                 circDoc >> gateDelay;
                 if (inputType != "NOT") {
                     for (int i = 0; i < 3; i++) { circDoc >> wireIndex[i]; }
-                    //Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1], wireIndex[2]);
-                    //gateVctr.push_back(gate);
+                    Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1], wireIndex[2]);
+                    gateVctr.push_back(gate);
                 }
                 else {
                     for (int i = 0; i < 2; i++) { circDoc >> wireIndex[i]; }
-                   // Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1]);
-                    //gateVctr.push_back(gate);
+                   Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1]);
+                   gateVctr.push_back(gate);
                 }
             }
         }
