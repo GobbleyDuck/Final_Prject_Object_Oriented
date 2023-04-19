@@ -23,7 +23,7 @@ public:
 		this->delay = delay;
 		this->output = output;
 		setInput(input1);
-	}
+	};
 
 	//getters
 	int getDelay()const {return delay;}
