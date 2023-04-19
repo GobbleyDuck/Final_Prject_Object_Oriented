@@ -5,6 +5,12 @@
 
 using namespace std;
 
+/*
+* TODO:
+* Make it optional for the user to select a file
+* 
+*/
+
 int main() {
     //TODO: turn wireIndex into an array [3]
     string wireName;
