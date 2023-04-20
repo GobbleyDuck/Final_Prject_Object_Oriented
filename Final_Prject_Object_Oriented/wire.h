@@ -14,6 +14,7 @@ class Gate;
 class Wire {
 
 public:
+	Wire();
 	Wire(string, int);	//constructor
 
 	string getName()const { return name; }

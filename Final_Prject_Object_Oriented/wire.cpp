@@ -7,6 +7,10 @@ Wire::Wire(string n = "", int i = 0) {
 	history = "X";
 
 }
+Wire::Wire() {
+	state = 'X';
+	history = "X";
+}
 
 void Wire::printHistory() {
 	cout << history << endl;
