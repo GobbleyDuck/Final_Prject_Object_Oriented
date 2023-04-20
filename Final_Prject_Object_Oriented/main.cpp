@@ -2,6 +2,7 @@
 #include "wire.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 
 using namespace std;
@@ -15,6 +16,21 @@ using namespace std;
 * Create Simulate
 * Create Print
 */
+vector<int> sort(vector<int> inputVctr) {
+    vector<int> sortedWires;
+    sort(inputVctr.begin(), inputVctr.end());
+    for (int i = 0; i < inputVctr.size(); i++) {
+        if (inputVctr[i] == i) {
+            sortedWires[i] = inputVctr[i];
+        }
+        else {
+            sortedWires[i] = 0;
+        }
+    }
+    return sortedWires;
+}
+
+
 
 int main() {
     // Declare variables for reading in circuit information
@@ -23,6 +39,7 @@ int main() {
     int gateDelay;
     vector<Wire> wireVctr;
     vector<Gate> gateVctr;
+    vector<int> wireIndexes;
 
     // Open input file
     ifstream circDoc("input.txt");
@@ -52,20 +69,23 @@ int main() {
                 // Read in input/output wire information and add it to the wire vector
                 circDoc >> inputType >> wireName >> wireIndex[0];
                 Wire wire(wireName, wireIndex[0]);
+                wireIndexes.push_back(wireIndex[0]);
                 wireVctr.push_back(wire);
             }
+            
+
             if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
                 // Read in gate information and add it to the gate vector
                 circDoc >> gateDelay;
                 if (inputType != "NOT") {
                     for (int i = 0; i < 3; i++) { circDoc >> wireIndex[i]; }
-                    Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1], wireIndex[2]);
-                    gateVctr.push_back(gate);
+                    //Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1], wireIndex[2]);
+                    //gateVctr.push_back(gate);
                 }
                 else {
                     for (int i = 0; i < 2; i++) { circDoc >> wireIndex[i]; }
-                   Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1]);
-                   gateVctr.push_back(gate);
+                   //Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1]);
+                   //gateVctr.push_back(gate);
                 }
             }
         }
