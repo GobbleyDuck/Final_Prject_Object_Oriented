@@ -35,6 +35,8 @@ vector<int> sort(vector<int> inputVctr) {
 int main() {
     // Declare variables for reading in circuit information
     string wireName;
+    string circuitFileName;
+    string vectorFileName;
     int wireIndex[3] = { 0,0,0 };
     int gateDelay;
     vector<Wire> wireVctr;
@@ -42,7 +44,15 @@ int main() {
     vector<int> wireIndexes;
 
     // Open input file
-    ifstream circDoc("input.txt");
+    cout << "Enter the file name, excluding the extension type" << endl;
+    cin >> circuitFileName;
+    ifstream circDoc(circuitFileName + ".txt");
+    // take in file then append .txt
+    // get whole line then use stringstream
+    // overload < operator to use priority queue
+    // least time comes first
+    // second variable to sort - count based on when comes first if time is same
+
 
     //----------------------------- OPEN TEXT FILE --------------------------------------------
     // Check if the file was successfully opened
