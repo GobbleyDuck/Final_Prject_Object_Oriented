@@ -57,15 +57,22 @@ int main() {
             if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
                 // Read in gate information and add it to the gate vector
                 circDoc >> gateDelay;
+                Wire tempWires[4];
                 if (inputType != "NOT") {
-                    for (int i = 0; i < 3; i++) { circDoc >> wireIndex[i]; }
-                    Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1], wireIndex[2]);
+                    for (int i = 0; i < 3; i++) {
+                        circDoc >> wireIndex[i];
+                        tempWires[i] = wireVctr[wireIndex[i]];
+                    }
+                    Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
                     gateVctr.push_back(gate);
                 }
                 else {
-                    for (int i = 0; i < 2; i++) { circDoc >> wireIndex[i]; }
-                   Gate gate(inputType, gateDelay, wireIndex[0], wireIndex[1]);
-                   gateVctr.push_back(gate);
+                    for (int i = 0; i < 2; i++) {
+                        circDoc >> wireIndex[i];
+                        tempWires[i] = wireVctr[wireIndex[i]];
+                    }
+                    Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1]);
+                    gateVctr.push_back(gate);
                 }
             }
         }
