@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <queue>
 
 
 using namespace std;
@@ -12,7 +13,7 @@ using namespace std;
 * Make it optional for the user to select a file
 * revise gate constructors to take a dynamic amount of wires
 * Create Vector
-* Create Event
+* Create Event - only create a new event if the output changes
 * Create Simulate
 * Create Print
 */
@@ -28,6 +29,16 @@ vector<int> sort(vector<int> inputVctr) {
         }
     }
     return sortedWires;
+}
+
+void simulate(queue<event> inputQueue) {
+    while (!inputQueue.empty()) {
+        event currEvnt = inputQueue.front();
+
+        
+        
+        inputQueue.pop();
+    }
 }
 
 
