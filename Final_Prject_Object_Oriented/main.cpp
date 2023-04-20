@@ -10,10 +10,11 @@ using namespace std;
 * TODO:
 * Make it optional for the user to select a file
 * revise gate constructors to take a dynamic amount of wires
-* Create Vector
 * Create Event
 * Create Simulate
 * Create Print
+* Change the vectors to a queue
+* get the in variant of 3ns
 */
 
 int main() {
@@ -24,61 +25,78 @@ int main() {
     vector<Wire> wireVctr;
     vector<Gate> gateVctr;
 
-    // Open input file
-    ifstream circDoc("input.txt");
 
-    //----------------------------- OPEN TEXT FILE --------------------------------------------
-    // Check if the file was successfully opened
-    if (!circDoc.is_open()) {
-        cerr << "Error opening file" << endl;
-        return 1;
-    }
+    try {
+        // Open input file
+        ifstream circDoc("input.txt");
+        // Check if the file was successfully opened
+        if (!circDoc.is_open()) {
 
-    string inputType;
+            cerr << "Error opening file" << endl;
+            return 1;
+        }
+        //----------------------------- OPEN TEXT FILE --------------------------------------------
+        // Check if the file was successfully opened
+        if (!circDoc.is_open()) {
+            cerr << "Error opening file" << endl;
+            return 1;
+        }
 
-    //------------------------------- READ FILE --------------------------------------------------
-    // Read in the circuit type from the input file
-    circDoc >> inputType;
+        string inputType;
 
-    // Check if the circuit type is valid
-    if (inputType == "CIRCUIT") {
-        string circuitName;
-        circDoc >> circuitName;
-        cout << "Circuit name: " << circuitName << endl;
+        //------------------------------- READ FILE --------------------------------------------------
+        // Read in the circuit type from the input file
+        circDoc >> inputType;
 
-        // Loop through the input file to read in circuit components
-        while (circDoc >> inputType) {
-            if (inputType == "INPUT" || inputType == "OUTPUT") {
-                // Read in input/output wire information and add it to the wire vector
-                circDoc >> inputType >> wireName >> wireIndex[0];
-                Wire wire(wireName, wireIndex[0]);
-                wireVctr.push_back(wire);
-            }
-            if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
-                // Read in gate information and add it to the gate vector
-                circDoc >> gateDelay;
-                Wire tempWires[4];
-                if (inputType != "NOT") {
-                    for (int i = 0; i < 3; i++) {
-                        circDoc >> wireIndex[i];
-                        tempWires[i] = wireVctr[wireIndex[i]];
-                    }
-                    Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
-                    gateVctr.push_back(gate);
+        // Check if the circuit type is valid
+        if (inputType == "CIRCUIT") {
+            string circuitName;
+            circDoc >> circuitName;
+            cout << "Circuit name: " << circuitName << endl;
+
+            // Loop through the input file to read in circuit components
+            while (circDoc >> inputType) {
+                if (inputType == "INPUT" || inputType == "OUTPUT") {
+                    // Read in input/output wire information and add it to the wire vector
+                    circDoc >> inputType >> wireName >> wireIndex[0];
+                    Wire wire(wireName, wireIndex[0]);
+                    wireVctr.push_back(wire);
                 }
-                else {
-                    for (int i = 0; i < 2; i++) {
-                        circDoc >> wireIndex[i];
-                        tempWires[i] = wireVctr[wireIndex[i]];
+                if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
+                    // Read in gate information and add it to the gate vector
+                    circDoc >> gateDelay;
+                    Wire tempWires[4];
+                    if (inputType != "NOT") {
+                        for (int i = 0; i < 3; i++) {
+                            circDoc >> wireIndex[i];
+                            //possible problems here
+                            tempWires[i] = wireVctr[wireIndex[i]];
+                        }
+                        Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
+                        gateVctr.push_back(gate);
                     }
-                    Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1]);
-                    gateVctr.push_back(gate);
+                    else {
+                        for (int i = 0; i < 2; i++) {
+                            circDoc >> wireIndex[i];
+                            tempWires[i] = wireVctr[wireIndex[i]];
+                        }
+                        Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1]);
+                        gateVctr.push_back(gate);
+                    }
                 }
             }
         }
-    }
 
-    // Close input file
-    circDoc.close();
+        // Close input file
+        circDoc.close();
+    }
+    catch (const ifstream::failure& e) {
+        cerr << "Exception opening/reading/closing file: " << e.what() << endl;
+        return 1;
+    }
+    catch (const exception& e) {
+        cerr << "Exception occurred: " << e.what() << endl;
+        return 1;
+    }
     return 0;
 }
