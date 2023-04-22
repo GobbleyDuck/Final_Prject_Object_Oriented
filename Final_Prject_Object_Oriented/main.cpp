@@ -186,12 +186,17 @@ int main() {
     //---------------------------- SIMULATE ---------------------------------------------------------------------
 
 
+    
+
     // while the priority queue still has events in it, read an event, handle it, then delete it
     while(!e.empty() && time <= 60){
 
         //get top event from queue and creates wire from queue
         Event currEvent = e.top();
         time = currEvent.time;
+
+        currEvent.wire->setHistory(currEvent.time);
+        currEvent.wire->setState(currEvent.value);
 
 
         e.pop();
