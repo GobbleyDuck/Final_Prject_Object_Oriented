@@ -21,6 +21,9 @@
     <ClInclude Include="wire.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="event.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gate.cpp">

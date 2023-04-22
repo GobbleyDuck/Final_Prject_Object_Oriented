@@ -4,6 +4,9 @@
 #include <fstream>
 #include <algorithm>
 #include <queue>
+#include <cstdio>
+#include <sstream>
+#include "event.h"
 
 
 using namespace std;
@@ -31,33 +34,32 @@ vector<int> sort(vector<int> inputVctr) {
     return sortedWires;
 }
 
-void simulate(queue<event> inputQueue) {
-    while (!inputQueue.empty()) {
-        event currEvnt = inputQueue.front();
-
-        
-        
-        inputQueue.pop();
-    }
-}
 
 
 
 int main() {
     // Declare variables for reading in circuit information
     string wireName;
+    string baseFileName;
     string circuitFileName;
     string vectorFileName;
+    ifstream circDoc(circuitFileName);
+    ifstream vecDoc(vectorFileName);
     int wireIndex[3] = { 0,0,0 };
     int gateDelay;
     vector<Wire> wireVctr;
     vector<Gate> gateVctr;
     vector<int> wireIndexes;
+    priority_queue<Event> e;
+    string inputType;
+
 
     // Open input file
     cout << "Enter the file name, excluding the extension type" << endl;
-    cin >> circuitFileName;
-    ifstream circDoc(circuitFileName + ".txt");
+    cin >> baseFileName;
+    circuitFileName = baseFileName + ".txt";
+    vectorFileName = baseFileName + "_v.txt";
+    
     // take in file then append .txt
     // get whole line then use stringstream
     // overload < operator to use priority queue
@@ -67,12 +69,14 @@ int main() {
 
     //----------------------------- OPEN TEXT FILE --------------------------------------------
     // Check if the file was successfully opened
+    circDoc.open(circuitFileName);
+
     if (!circDoc.is_open()) {
         cerr << "Error opening file" << endl;
         return 1;
     }
 
-    string inputType;
+    
 
     //------------------------------- READ FILE --------------------------------------------------
     // Read in the circuit type from the input file
@@ -119,7 +123,84 @@ int main() {
         }
     }
 
-    // Close input file
+    // close circuit file
     circDoc.close();
+
+    
+    //open vector file
+    vecDoc.open(vectorFileName);
+    if (!vecDoc.is_open()) {
+        cerr << "Error opening file" << endl;
+        return 1;
+    }
+
+    //Read vector file
+    string line;
+    string title;
+    string name;
+    int time = -1;
+    char value; 
+    Wire* wire = nullptr;
+
+    getline(vecDoc, line);
+    if (line.substr(0, 6) != "VECTOR") {
+        cerr << "Incorrect file formatting - please fix and try again.";
+        return 1;
+    }
+
+
+    while (!vecDoc.eof()) {
+        getline(vecDoc, line);
+        stringstream ss(title);
+
+        ss >> title >> name >> time >> value;
+    
+        if (title != "INPUT") {
+            break;
+        }
+        if (name == "") { 
+            break;
+        }
+        if (time == -1) {
+            break;
+        }
+        if (value == '/n') {
+            break;
+        }
+
+        if (value != '0' || value != '1' || value != 'X') {
+            break;
+        }
+        
+        //populate event queue
+        Event newEvent = Event(wire, e.size() + 1, time, value);
+        e.push(newEvent);
+        
+
+        getline(vecDoc, line);
+    }
+
+
+    vecDoc.close();
+
+    //---------------------------- SIMULATE ---------------------------------------------------------------------
+
+
+    // while the priority queue still has events in it, read an event, handle it, then delete it
+    while(!e.empty() && time <= 60){
+
+        //get top event from queue and creates wire from queue
+        Event currEvent = e.top();
+        time = currEvent.time;
+
+
+        e.pop();
+    }
+
+
+
+
+
+    
     return 0;
 }
