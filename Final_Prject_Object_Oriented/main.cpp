@@ -196,7 +196,7 @@ int main() {
         Event currEvent = e.top();
         time = currEvent.time;
 
-        currEvent.wire->setHistory(currEvent.time);
+        currEvent.wire->setHistory(currEvent.value, currEvent.time);
         currEvent.wire->setState(currEvent.value);
 
 

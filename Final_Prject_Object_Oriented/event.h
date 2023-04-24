@@ -21,7 +21,7 @@ public:
 
 
 
-private:
+
 	int time;
 	int count;
 	char value;
