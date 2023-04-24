@@ -13,7 +13,6 @@ using namespace std;
 
 /*
 * TODO:
-* Make it optional for the user to select a file
 * revise gate constructors to take a dynamic amount of wires
 * Create Vector
 * Create Event - only create a new event if the output changes
