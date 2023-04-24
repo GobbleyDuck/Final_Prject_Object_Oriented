@@ -36,7 +36,7 @@ public:
 	void setType(string type);
 	void setDelay(int delay);
 	void setInput(Wire* input);
-	bool evaluate()const;
+	char evaluate()const;
 
 	//TODO: returnVal evaluate(parms)
 

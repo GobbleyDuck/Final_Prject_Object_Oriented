@@ -15,47 +15,43 @@ void Gate::setInput(Wire* input) {
 }
 
 //TODO: make Wire class complete (causing issues)
-bool Gate::evaluate()const {
+char Gate::evaluate()const {
+	//return event or state (enum or char)
 	//and gate
 	if (type == "AND") {
-		for (int i = 0; i < inputs.size(); i++) {
-			if (!inputs[i]->getState()) {
-				return false;
-			}
+		if (inputs[0]->getState() == '1' && inputs[1]->getState() == '1') {
+			return '1';
 		}
-		return true;
+		else if (inputs[0]->getState() == 'X' || inputs[1]->getState() == 'X') {
+			return 'X';
+		}
+		else {
+			return '0';
+		}
 	}
 	//not gate
 	if (type == "NOT") {
 		if (inputs[0]->getState() == '1') {
-			output->setState('0');
-			return false;
+			return '0';
 		}
 		else if (inputs[0]->getState() == '0') {
-			output->setState('1');
-			return true;
+			return '1';
 		}
 		else {
-			output->setState('X');
-			return false;
+			return 'X';
 		}
 
 	}
 	//or gate
 	if (type == "OR") {
-		for (int i = 0; i < inputs.size(); i++) {
-			if (inputs[i]->getState() == '1') {
-				output->setState('1');
-				return true;
-			}
-			else if (inputs[i]->getState() == 'X') {
-				output->setState('1');
-				return true;
-			}
-			else {
-				output->setState('0');
-				return false;
-			}
+		if (inputs[0]->getState() == '1' || inputs[1]->getState() == '1') {
+			return '1';
+		}
+		else if (inputs[0]->getState() == '0' && inputs[1]->getState() == '0') {
+			return '0';
+		}
+		else {
+			return 'X';
 		}
 		
 	}
@@ -65,12 +61,13 @@ bool Gate::evaluate()const {
 
 		//true if outputs diff and false if same
 		if (inputs[0]->getState() != inputs[1]->getState()) {
-			output->setState('1');
-			return true;
+			return '1';
+		}
+		else if (inputs[0]->getState() == 'X' || inputs[1]->getState() == 'X') {
+			return 'X';
 		}
 		else {
-			output->setState('0');
-			return false;
+			return '0';
 		}
 
 
@@ -78,14 +75,14 @@ bool Gate::evaluate()const {
 
 	//nand gate
 	if (type == "NAND") {
-		// false if both inputs are a 1, and true otherwise
-		if (inputs[0]->getState() == 0 || inputs[1]->getState() == 0) {
-			output->setState('0');
-			return false;
+		if (inputs[0]->getState() == '1' && inputs[1]->getState() == '1') {
+			return '0';
+		}
+		else if (inputs[0]->getState() == 'X' || inputs[1]->getState() == 'X') {
+			return 'X';
 		}
 		else {
-			output->setState('1');
-			return true;
+			return '1';
 		}
 	}
 
@@ -95,14 +92,27 @@ bool Gate::evaluate()const {
 
 		//true if both outputs are the same and false if diff
 		if (inputs[0]->getState() == inputs[1]->getState()) {
-			output->setState('1');
-			return true;
+			return '1';
+		}
+		else if (inputs[0]->getState() == 'X' || inputs[1]->getState() == 'X') {
+			return 'X';
 		}
 		else {
-			output->setState('0');
-			return false;
+			return '0';
 		}
 
 	}
-	return false;
+
+	if (type == "NOR") {
+		if (inputs[0]->getState() == '0' && inputs[1]->getState() == '0') {
+			return '1';
+		}
+		else {
+			return '0';
+		}
+
+
+	}
+
+	return 'X';
 }
