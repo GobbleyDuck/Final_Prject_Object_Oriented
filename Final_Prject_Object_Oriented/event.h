@@ -15,7 +15,7 @@ public:
 		value = v;
 	}
 
-	bool operator<(Event rhs) {
+	bool operator<(Event rhs)const {
 		return time > rhs.time;
 	}
 

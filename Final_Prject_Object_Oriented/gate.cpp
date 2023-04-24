@@ -104,5 +104,5 @@ bool Gate::evaluate()const {
 		}
 
 	}
-
+	return false;
 }
