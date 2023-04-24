@@ -22,6 +22,7 @@ public:
 
 
 
+
 	int time;
 	int count;
 	char value;
