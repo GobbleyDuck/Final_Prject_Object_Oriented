@@ -21,7 +21,7 @@
     <ClInclude Include="wire.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="simulate.h">
+    <ClInclude Include="event.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

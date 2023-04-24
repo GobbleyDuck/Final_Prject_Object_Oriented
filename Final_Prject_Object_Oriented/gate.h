@@ -10,7 +10,7 @@ class Wire;
 class Gate {
 public:
 	//constructors
-	Gate(string type, int delay, Wire* output, Wire* input1, Wire* input2) {
+	Gate(string type, int delay, Wire* input1, Wire* input2, Wire* output) {
 		this->type = type;
 		this->delay = delay;
 		this->output = output;
@@ -18,7 +18,7 @@ public:
 		setInput(input2);
 	};
 	
-	Gate(string type, int delay, Wire* output, Wire* input1) {
+	Gate(string type, int delay, Wire* input1, Wire* output) {
 		this->type = type;
 		this->delay = delay;
 		this->output = output;
