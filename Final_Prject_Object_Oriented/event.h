@@ -22,25 +22,24 @@ public:
 	}
 
 	//getters: CHANGE TIMING TO A DIF NAME
-	vector<Wire> getIntputs() { return inputs; }
-	int getTiming(int i) { return timings[i]; }
 	int getTime() { return time; }
 	int getCount() { return count; }
 	char getValue() { return value; }
 	Wire* GetEventWire() { return wire; }
 
 
-	bool operator<(const Event& rhs) const { return time < rhs.time;}
+	bool friend operator<(const Event& lhs, const Event& rhs) {
+		if (lhs.time == rhs.time) {
+			return lhs.count > rhs.count;
+		}
+		else {
+			return lhs.time > rhs.time;
+		}
+	}
 
-	//the painfull stuff :(
-	bool evaluateGateDelay(vector<int> wireIndexes, vector<Gate>& gateVctr);
-
-	char makeQueue(Gate tempGate, Wire tempWire, Event newEvent);
 	
 
 private:
-	vector<Wire> inputs;
-	int timings[3];
 	int time;
 	int count;
 	char value;
