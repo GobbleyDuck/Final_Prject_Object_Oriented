@@ -1,5 +1,6 @@
 #pragma once
 #include "wire.h"
+#include "event.h"
 #include <string>
 #include <vector>
 

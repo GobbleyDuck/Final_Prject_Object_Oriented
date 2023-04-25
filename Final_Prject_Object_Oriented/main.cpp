@@ -15,7 +15,6 @@ using namespace std;
 /*
 * TODO:
 * revise gate constructors to take a dynamic amount of wires
-* Create Vector
 * Create Event - only create a new event if the output changes
 * Create Simulate
 * Create Print
@@ -82,75 +81,75 @@ int main() {
 
     //------------------------------- READ FILE --------------------------------------------------
     // Read in the circuit type from the input file
-    circDoc >> inputType;
+    string input;
+    getline(circDoc, input);
 
-    try {
         // Check if the circuit type is valid
-        if (inputType == "CIRCUIT") {
-            string circuitName;
-            circDoc >> circuitName;
-            cout << "Circuit name: " << circuitName << endl;
+    if (input.substr(0,7) != "CIRCUIT") {
+        cerr << "invalid file name." << endl;
+    }
 
             // Loop through the input file to read in circuit components
-            while (circDoc >> inputType) {
-                if (inputType == "INPUT" || inputType == "OUTPUT") {
-                    // Read in input/output wire information and add it to the wire vector
-                    circDoc >> inputType >> wireName >> wireIndex[0];
-                    Wire wire(wireName, wireIndex[0]);
-                    wireIndexes.push_back(wireIndex[0]);
-                    wireVctr.push_back(wire);
-                }
+    while (!circDoc.eof()) {
+        circDoc >> inputType;
+        if (inputType == "INPUT" || inputType == "OUTPUT") {
+            circDoc >> wireName >> wireIndex[0];
+            // Read in input/output wire information and add it to the wire vector
+            Wire wire(wireName, wireIndex[0]);
+            wireIndexes.push_back(wireIndex[0]);
+            wireVctr.push_back(wire);
+            //getline(circDoc, input);
+        }
 
 
-                if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
-                    // Read in gate information and add it to the gate vector
-                    circDoc >> gateDelay;
-                    Wire tempWires[4];
-                    if (inputType != "NOT") {
-                        for (int i = 0; i < 3; i++) {
-                            circDoc >> wireIndex[i];
-                            tempWires[i] = wireVctr[wireIndex[i]];
-                        }
-                        Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
-                        gateVctr.push_back(gate);
-                    }
-                    else {
-                        for (int i = 0; i < 2; i++) {
-                            circDoc >> wireIndex[i];
-                            tempWires[i] = wireVctr[wireIndex[i]];
-                        }
-                        Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1]);
-                        gateVctr.push_back(gate);
-                    }
+        if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
+            // Read in gate information and add it to the gate vector
+            circDoc >> gateDelay;
+            Wire tempWires[4];
+            if (inputType != "NOT") {
+                for (int i = 0; i < 3; i++) {
+                    circDoc >> wireIndex[i];
+                    tempWires[i] = wireVctr[wireIndex[i]];
                 }
+                Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
+                gateVctr.push_back(gate);
+            }
+            else {
+                for (int i = 0; i < 2; i++) {
+                    circDoc >> wireIndex[i];
+                    tempWires[i] = wireVctr[wireIndex[i]];
+                }
+                Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1]);
+                gateVctr.push_back(gate);
+                getline(circDoc, input);
             }
         }
-        else {
-            throw("invalid file name");
-        }
     }
-    catch(string input){
-        cerr << input << endl;
-    }
+            
+      
+        
 
     // close circuit file
+    cout << "closing circuit file...";
     circDoc.close();
 
     
     //open vector file
+    cout << "opening vector file...";
     vecDoc.open(vectorFileName);
     if (!vecDoc.is_open()) {
         cerr << "Error opening file" << endl;
         return 1;
     }
 
-    //Read vector file
+    //-----------------------------------------Read vector file----------------------------------------------
     string line;
     string title;
     string name;
     int time = -1;
     char value; 
     Wire* wire = nullptr;
+    
 
     getline(vecDoc, line);
     if (line.substr(0, 6) != "VECTOR") {
@@ -158,12 +157,12 @@ int main() {
         return 1;
     }
 
+    getline(vecDoc, line);
 
     while (!vecDoc.eof()) {
         getline(vecDoc, line);
-        stringstream ss(title);
 
-        ss >> title >> name >> time >> value;
+        vecDoc >> title >> name >> time >> value;
     
         if (title != "INPUT") {
             break;
@@ -178,41 +177,46 @@ int main() {
             break;
         }
 
-        if (value != '0' || value != '1' || value != 'X') {
+        if (value != '0' && value != '1' && value != 'X') {
             break;
         }
         
         //populate event queue
+       
         Event newEvent = Event(wire, e.size() + 1, time, value);
         e.push(newEvent);
+
+        cout << "count: " << newEvent.getCount() << " wire: " << newEvent.GetEventWire() << " time: " << newEvent.getTime() << " value: " << newEvent.getValue() << endl;
         
 
         getline(vecDoc, line);
     }
 
-
+    cout << "closing vector document...";
     vecDoc.close();
 
     //---------------------------- SIMULATE ---------------------------------------------------------------------
 
 
+
     
+
 
     // while the priority queue still has events in it, read an event, handle it, then delete it
     while(!e.empty() && time <= 60){
 
         //get top event from queue and creates wire from queue
         Event currEvent = e.top();
-        time = currEvent.time;
+        time = currEvent.getTime();
 
-        currEvent.wire->setHistory(currEvent.value, currEvent.time);
-        currEvent.wire->setState(currEvent.value);
+        currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
+        currEvent.GetEventWire()->setState(currEvent.getValue());
 
 
         e.pop();
     }
 
-
+    
 
 
 
