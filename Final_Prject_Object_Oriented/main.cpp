@@ -93,18 +93,19 @@ int main() {
 
             // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
-        getline(circDoc, input);
-        if (input.substr(0,5) == "INPUT" || input.substr(0,6) == "OUTPUT") {
+        circDoc >> inputType;
+        if (inputType == "INPUT" || inputType == "OUTPUT") {
+            circDoc >> wireName >> wireIndex[0];
             // Read in input/output wire information and add it to the wire vector
             circDoc >> inputType >> wireName >> wireIndex[0];
             Wire wire(wireName, wireIndex[0]);
             wireIndexes.push_back(wireIndex[0]);
             wireVctr.push_back(wire);
-            getline(circDoc, input);
+            //getline(circDoc, input);
         }
 
 
-        if (input.substr(0,3) == "AND" || input.substr(0,4) == "NAND" || input.substr(0,2) == "OR" || input.substr(0,3) == "XOR" || input.substr(0,3) == "NOT") {
+        if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
             // Read in gate information and add it to the gate vector
             circDoc >> gateDelay;
             Wire tempWires[4];
