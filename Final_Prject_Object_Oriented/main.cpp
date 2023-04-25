@@ -129,8 +129,8 @@ int main() {
             throw("invalid file name");
         }
     }
-    catch(string){
-
+    catch(string input){
+        cerr << input << endl;
     }
 
     // close circuit file
