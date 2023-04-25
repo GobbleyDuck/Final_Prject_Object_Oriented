@@ -32,6 +32,9 @@ public:
 
 	bool operator<(const Event& rhs) const { return time < rhs.time;}
 
+	//the painfull stuff :(
+	bool evaluateGateDelay(vector<int> wireIndexes, vector<Gate>& gateVctr);
+
 	char makeQueue(Gate tempGate, Wire tempWire, Event newEvent);
 	
 
