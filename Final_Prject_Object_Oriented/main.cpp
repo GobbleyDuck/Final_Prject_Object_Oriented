@@ -82,14 +82,12 @@ int main() {
     //------------------------------- READ FILE --------------------------------------------------
     // Read in the circuit type from the input file
     string input;
-    circDoc >> input;
+    getline(circDoc, input);
 
-    
         // Check if the circuit type is valid
-    if (input != "CIRCUIT") {
+    if (input.substr(0,7) != "CIRCUIT") {
         cerr << "invalid file name." << endl;
     }
-    getline(circDoc, input);
 
             // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
@@ -97,7 +95,6 @@ int main() {
         if (inputType == "INPUT" || inputType == "OUTPUT") {
             circDoc >> wireName >> wireIndex[0];
             // Read in input/output wire information and add it to the wire vector
-            circDoc >> inputType >> wireName >> wireIndex[0];
             Wire wire(wireName, wireIndex[0]);
             wireIndexes.push_back(wireIndex[0]);
             wireVctr.push_back(wire);
