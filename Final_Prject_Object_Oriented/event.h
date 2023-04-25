@@ -13,23 +13,29 @@ using namespace std;
 
 class Event {
 public:
-	//added new Even constructor
-	Event(const vector<Wire>& inputs, const int timings[3]) : inputs(inputs), timings{ timings[0], timings[1], timings[2] } {}
-
+	//constructors:
 	Event(Wire* w, int c, int t, char v) { 
 		wire = w; 
-		count = c; 
+		count = c; // event number (event1, event2...) 
 		time = t;
-		value = v;
+		value = v; // high or low
 	}
 
-	/*bool operator<(Event rhs) {
-		return time > rhs.time;
-	}*/
+	//getters: CHANGE TIMING TO A DIF NAME
+	vector<Wire> getIntputs() { return inputs; }
+	int getTiming(int i) { return timings[i]; }
+	int getTime() { return time; }
+	int getCount() { return count; }
+	char getValue() { return value; }
+	Wire* GetEventWire() { return wire; }
 
 
+	bool operator<(const Event& rhs) const { return time < rhs.time;}
 
+	char makeQueue(Gate tempGate, Wire tempWire, Event newEvent);
+	
 
+private:
 	vector<Wire> inputs;
 	int timings[3];
 	int time;

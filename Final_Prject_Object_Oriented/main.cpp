@@ -135,7 +135,7 @@ int main() {
         return 1;
     }
 
-    //Read vector file
+    //-----------------------------------------Read vector file----------------------------------------------
     string line;
     string title;
     string name;
@@ -194,10 +194,10 @@ int main() {
 
         //get top event from queue and creates wire from queue
         Event currEvent = e.top();
-        time = currEvent.time;
+        time = currEvent.getTime();
 
-        currEvent.wire->setHistory(currEvent.value, currEvent.time);
-        currEvent.wire->setState(currEvent.value);
+        currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
+        currEvent.GetEventWire()->setState(currEvent.getValue());
 
 
         e.pop();
