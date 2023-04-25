@@ -4,14 +4,13 @@ Wire::Wire(string n = "", int i = 0) {
 	name = n;
 	state = 'X';
 	index = i;
-	history.at(0) = 'X';
 
 }
 Wire::Wire() {
 	name = "";
 	state = 'X';
 	index = 0;
-	history.at(0) = 'X';
+
 }
 
 void Wire::printHistory() {
@@ -27,7 +26,6 @@ void Wire::setState(char s) {
 	state = s;
 }
 void Wire::setHistory(char inputState, int inputTime) {
-	//inputtime-1 exists
 	if (history.size() >= 2) {
 		if (history.at(inputState - 1) != '/n') {
 			history.at(inputTime) = inputState;

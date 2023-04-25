@@ -22,15 +22,17 @@ public:
 			currEvent = eventQueue.top();
 			time = currEvent.getTime();
 			
-			//check if event creates a change in the wire - if no, discard event
-			if (currEvent.getValue() == currEvent.GetEventWire()->getState()) {
-				break;
-			}
+			////check if event creates a change in the wire - if no, discard event
+			//if (currEvent.getValue() == currEvent.GetEventWire()->getState()) {
+			//	break;
+			//}
 
 
 			//fill in gaps with setHistory()
-			currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
-			currEvent.GetEventWire()->setState(currEvent.getValue());
+			if (currEvent.GetEventWire() != nullptr) {
+				currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
+				currEvent.GetEventWire()->setState(currEvent.getValue());
+			}
 
 			for (auto d : currEvent.GetEventWire()->getDrives()) {
 				char state = d->evaluate();

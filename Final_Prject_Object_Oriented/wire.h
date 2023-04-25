@@ -34,7 +34,7 @@ private:
 	char state;
 	vector <Gate*> drives;
 	int index;
-	vector<char> history = {};
+	vector<char> history;
 	int time;
 
 };
