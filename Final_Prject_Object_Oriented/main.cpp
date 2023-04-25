@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include "event.h"
+#include "simulate.h"
 
 
 using namespace std;
@@ -48,7 +49,7 @@ int main() {
     ifstream vecDoc(vectorFileName);
     int wireIndex[3] = { 0,0,0 };
     int gateDelay;
-    vector<Wire> wireVctr;
+    vector<Wire*> wireVctr;
     vector<Gate> gateVctr;
     vector<int> wireIndexes;
     priority_queue<Event> e;
@@ -89,7 +90,7 @@ int main() {
     if (input != "CIRCUIT") {
         cerr << "invalid file name." << endl;
     }
-    getline(circDoc, input);
+ //   getline(circDoc, input);
 
             // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
@@ -99,7 +100,7 @@ int main() {
             circDoc >> inputType >> wireName >> wireIndex[0];
             Wire wire(wireName, wireIndex[0]);
             wireIndexes.push_back(wireIndex[0]);
-            wireVctr.push_back(wire);
+            wireVctr.push_back(&wire);
             getline(circDoc, input);
         }
 
@@ -111,7 +112,7 @@ int main() {
             if (inputType != "NOT") {
                 for (int i = 0; i < 3; i++) {
                     circDoc >> wireIndex[i];
-                    tempWires[i] = wireVctr[wireIndex[i]];
+                    tempWires[i] = *wireVctr[wireIndex[i]];
                 }
                 Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
                 gateVctr.push_back(gate);
@@ -119,7 +120,7 @@ int main() {
             else {
                 for (int i = 0; i < 2; i++) {
                     circDoc >> wireIndex[i];
-                    tempWires[i] = wireVctr[wireIndex[i]];
+                    tempWires[i] = *wireVctr[wireIndex[i]];
                 }
                 Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1]);
                 gateVctr.push_back(gate);
@@ -198,28 +199,11 @@ int main() {
     vecDoc.close();
 
     //---------------------------- SIMULATE ---------------------------------------------------------------------
+    Simulate s(e);
 
+    s.simulation();
 
-
-    
-
-
-    // while the priority queue still has events in it, read an event, handle it, then delete it
-    while(!e.empty() && time <= 60){
-
-        //get top event from queue and creates wire from queue
-        Event currEvent = e.top();
-        time = currEvent.getTime();
-
-        currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
-        currEvent.GetEventWire()->setState(currEvent.getValue());
-
-
-        e.pop();
-    }
-
-    
-
+    s.print(time, wireVctr);
 
 
     
