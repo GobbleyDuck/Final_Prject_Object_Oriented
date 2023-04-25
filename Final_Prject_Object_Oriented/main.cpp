@@ -8,7 +8,6 @@
 #include <sstream>
 #include <string>
 #include "event.h"
-#include "simulate.h"
 
 
 using namespace std;
@@ -49,7 +48,7 @@ int main() {
     ifstream vecDoc(vectorFileName);
     int wireIndex[3] = { 0,0,0 };
     int gateDelay;
-    vector<Wire*> wireVctr;
+    vector<Wire> wireVctr;
     vector<Gate> gateVctr;
     vector<int> wireIndexes;
     priority_queue<Event> e;
@@ -83,36 +82,34 @@ int main() {
     //------------------------------- READ FILE --------------------------------------------------
     // Read in the circuit type from the input file
     string input;
-    circDoc >> input;
+    getline(circDoc, input);
 
-    
         // Check if the circuit type is valid
-    if (input != "CIRCUIT") {
+    if (input.substr(0,7) != "CIRCUIT") {
         cerr << "invalid file name." << endl;
     }
- //   getline(circDoc, input);
 
             // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
-        getline(circDoc, input);
-        if (input.substr(0,5) == "INPUT" || input.substr(0,6) == "OUTPUT") {
+        circDoc >> inputType;
+        if (inputType == "INPUT" || inputType == "OUTPUT") {
+            circDoc >> wireName >> wireIndex[0];
             // Read in input/output wire information and add it to the wire vector
-            circDoc >> inputType >> wireName >> wireIndex[0];
             Wire wire(wireName, wireIndex[0]);
             wireIndexes.push_back(wireIndex[0]);
-            wireVctr.push_back(&wire);
-            getline(circDoc, input);
+            wireVctr.push_back(wire);
+            //getline(circDoc, input);
         }
 
 
-        if (input.substr(0,3) == "AND" || input.substr(0,4) == "NAND" || input.substr(0,2) == "OR" || input.substr(0,3) == "XOR" || input.substr(0,3) == "NOT") {
+        if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
             // Read in gate information and add it to the gate vector
             circDoc >> gateDelay;
             Wire tempWires[4];
             if (inputType != "NOT") {
                 for (int i = 0; i < 3; i++) {
                     circDoc >> wireIndex[i];
-                    tempWires[i] = *wireVctr[wireIndex[i]];
+                    tempWires[i] = wireVctr[wireIndex[i]];
                 }
                 Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
                 gateVctr.push_back(gate);
@@ -120,7 +117,7 @@ int main() {
             else {
                 for (int i = 0; i < 2; i++) {
                     circDoc >> wireIndex[i];
-                    tempWires[i] = *wireVctr[wireIndex[i]];
+                    tempWires[i] = wireVctr[wireIndex[i]];
                 }
                 Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1]);
                 gateVctr.push_back(gate);
@@ -199,11 +196,28 @@ int main() {
     vecDoc.close();
 
     //---------------------------- SIMULATE ---------------------------------------------------------------------
-    Simulate s(e);
 
-    s.simulation();
 
-    s.print(time, wireVctr);
+
+    
+
+
+    // while the priority queue still has events in it, read an event, handle it, then delete it
+    while(!e.empty() && time <= 60){
+
+        //get top event from queue and creates wire from queue
+        Event currEvent = e.top();
+        time = currEvent.getTime();
+
+        currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
+        currEvent.GetEventWire()->setState(currEvent.getValue());
+
+
+        e.pop();
+    }
+
+    
+
 
 
     
