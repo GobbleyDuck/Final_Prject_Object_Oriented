@@ -102,7 +102,7 @@ int main() {
             getline(circDoc, inputType);
         }
 
-        if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT" || inputType == "NOR") {
+        if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
             // Read in gate information and add it to the gate vector
             string garbage;
             circDoc >> gateDelay;
