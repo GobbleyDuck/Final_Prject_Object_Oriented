@@ -89,7 +89,6 @@ int main() {
 
         if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT" || inputType == "NOR") {
             // Read in gate information and add it to the gate vector
-           string garbage;
            circDoc >> gateDelay >> garbage;
  
             if (inputType != "NOT") {
@@ -160,7 +159,6 @@ int main() {
     
 
 
-    string garbage;
     vecDoc >> garbage >> garbage;
     vecDoc >> title; // get first line of data
     while (!vecDoc.eof()) {
