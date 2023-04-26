@@ -17,7 +17,7 @@ using namespace std;
 * TODO:
 * revise gate constructors to take a dynamic amount of wires
 * Change the vectors to a queue
-* get the in variant of 3ns
+* get the in variant of 3ns work
 */
 
 void createWire(string wn, int wi, vector<Wire*>& w) {
