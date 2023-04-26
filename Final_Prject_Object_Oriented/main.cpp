@@ -104,7 +104,7 @@ int main() {
             }
             else {
                 circDoc >> wIndices[1] >> wIndices[2];
-  //              circDoc >> w1 >> w2;
+
                 createWire(to_string(wIndices[1]), wIndices[1], wireVctr);
                 createWire(to_string(wIndices[2]), wIndices[2], wireVctr);
 
@@ -145,6 +145,7 @@ int main() {
 
     while (!vecDoc.eof()) {
 
+
         vecDoc >> name >> time >> value; // get the rest of the line
 
         //at this point, it's taking the line A 4 1....?
@@ -174,7 +175,7 @@ int main() {
                 correctWire = true;
 
                 wire = wireVctr.at(i);
-                wireVctr.at(i)->setState(value);
+//                wireVctr.at(i)->setState(value);
                 break;
             }
         }
@@ -198,7 +199,7 @@ int main() {
 
     Simulate s(e);
 
-    s.simulation();
+    time = s.simulation();
 
     s.print(time, wireVctr);
 

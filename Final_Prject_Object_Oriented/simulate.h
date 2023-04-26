@@ -17,21 +17,28 @@ public:
 
 	int simulation() {
 		count = eventQueue.size();
+		
 
 		while(!eventQueue.empty() && time <= 60){
 			currEvent = eventQueue.top();
+			Wire* currWire = currEvent.GetEventWire();
+			eventQueue.pop();
 			time = currEvent.getTime();
 			
 			//check if event creates a change in the wire - if no, discard event
 			if (currEvent.getValue() == currEvent.GetEventWire()->getState()) {
-				break;
+				continue;
 			}
 
 
 			//fill in gaps with setHistory()
+			//currently setting history to current value with time gaps - set to last known value until current time
+			//wire pointer to getEventWire
+			//time minus 1
+			//wire's value, not currEvent value
 			if (currEvent.GetEventWire() != nullptr) {
-				currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
-				currEvent.GetEventWire()->setState(currEvent.getValue());
+				currWire->setHistory(currWire->getState(), currEvent.getTime() - 1);
+				currWire->setState(currEvent.getValue());
 			}
 
 			for (auto d : currEvent.GetEventWire()->getDrives()) {
@@ -41,25 +48,16 @@ public:
 				eventQueue.push(newEvent);
 			}
 
-			eventQueue.pop();
+			
 		
-			return time;
+			
 		}
+		return time;
 	}
 
 	void print(int time, vector<Wire*>& inputWires) {
 
 		time++;
-
-		//-------------	DEBUGGING PURPOSES -----------------------
-
-		for (int i = 1; i < inputWires.size(); i++) {
-			cout << "state of wire " << i << ": ";
-			cout << inputWires.at(i)->getState() << endl;
-		}
-
-		//--------------------------------------------------------
-
 
 		for (int i = 1; i < inputWires.size(); i++) {
 			inputWires.at(i)->setHistory(inputWires.at(i)->getState(), time);
@@ -89,7 +87,7 @@ public:
 				break;
 			}
 			else if ((i % 5) == 0) {
-				cout << i;
+				cout << i / 5;
 			}
 			else {
 				cout << "-";
