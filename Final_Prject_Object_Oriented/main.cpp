@@ -16,9 +16,6 @@ using namespace std;
 /*
 * TODO:
 * revise gate constructors to take a dynamic amount of wires
-* Create Event - only create a new event if the output changes
-* Create Simulate
-* Create Print
 * Change the vectors to a queue
 * get the in variant of 3ns
 */
@@ -62,11 +59,6 @@ int main() {
     circuitFileName = baseFileName + ".txt";
     vectorFileName = baseFileName + "_v.txt";
     
-    // take in file then append .txt
-    // get whole line then use stringstream
-    // overload < operator to use priority queue
-    // least time comes first
-    // second variable to sort - count based on when comes first if time is same
 
 
     //----------------------------- OPEN TEXT FILE --------------------------------------------
@@ -208,21 +200,17 @@ int main() {
             else {
                 correctWire = true;
                 wire = wireVctr.at(i);
+                wireVctr.at(i)->setState(value);
                 break;
             }
         }
         
         
-
+        
         //populate event queue
        
         Event newEvent = Event(wire, e.size() + 1, time, value);
         e.push(newEvent);
-
-       /* cout << "count: " << newEvent.getCount() << endl;
-        cout << " wire: " << newEvent.GetEventWire() << endl;
-        cout <<  "time: " << newEvent.getTime() << endl;
-        cout << "value: " << newEvent.getValue() << endl;*/
        
 
         getline(vecDoc, line);
@@ -232,24 +220,13 @@ int main() {
 
     //---------------------------- SIMULATE ---------------------------------------------------------------------
 
+    //-------------DEBUGGING PURPOSES------------------------
+    for (int i = 0; i < wireVctr.size(); i++) {
+        cout << "state of wireVctr wire at " << i << ": ";
+        cout << wireVctr.at(i)->getState() << endl;
+    }
+    //--------------------------------------------------------
 
-
-    
-
-
-    //// while the priority queue still has events in it, read an event, handle it, then delete it
-    //while(!e.empty() && time <= 60){
-
-    //    //get top event from queue and creates wire from queue
-    //    Event currEvent = e.top();
-    //    time = currEvent.getTime();
-
-    //    currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
-    //    currEvent.GetEventWire()->setState(currEvent.getValue());
-
-
-    //    e.pop();
-    //}
 
     Simulate s(e);
     s.simulation();
