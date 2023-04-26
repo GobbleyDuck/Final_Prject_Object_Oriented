@@ -133,13 +133,13 @@ int main() {
         
 
     // close circuit file
-    cout << "closing circuit file...";
+    cout << "closing circuit file..." << endl;
     circDoc.close();
 
+    Wire w;
 
-    for (int i = 0; i < wireVctr.size(); i++) {
-        cout << wireVctr.at(i) << endl;
-    }
+    w.printWire();
+   
     
     //open vector file
     cout << "opening vector file..." << endl;
@@ -188,21 +188,16 @@ int main() {
             break;
         }
         
-        for (int i = 0; i < wireVctr.size(); i++) {
-            if (name == wireVctr.at(i)->getName()) {
-                wire = wireVctr.at(i);
-                break;
-            }
-        }
+       
         //populate event queue
        
         Event newEvent = Event(wire, e.size() + 1, time, value);
         e.push(newEvent);
 
-        cout << "count: " << newEvent.getCount() << endl;
+       /* cout << "count: " << newEvent.getCount() << endl;
         cout << " wire: " << newEvent.GetEventWire() << endl;
         cout <<  "time: " << newEvent.getTime() << endl;
-        cout << "value: " << newEvent.getValue() << endl;
+        cout << "value: " << newEvent.getValue() << endl;*/
        
 
         getline(vecDoc, line);
