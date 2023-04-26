@@ -96,17 +96,6 @@ int main() {
                 createWire(to_string(wIndices[2]), wIndices[2], wireVctr);
                 createWire(to_string(wIndices[3]), wIndices[3], wireVctr);
 
-                //for (int i = 0; i < 3; i++) {
-                //    circDoc >> wIndices[i];
-                //    //if wire DNE yet, resize
-                //    // may not work with internal wires - KAS
-                //    if (wireVctr.size() < wireIndex) {
-                //        for (int i = wireVctr.size(); i <= wireIndex; i++) {
-                //            wireVctr.push_back(nullptr);
-                //            wireVctr.at(i) = new Wire("", i); // only if its nullptr - KAS
-                //        } // swap this line with the one above - KAS
-                //    }
-               //    tempWires[i] = wireVctr[wireIndex-1];
                 Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(1), wireVctr.at(2), wireVctr.at(3));
                 gateVctr.push_back(gate);
                 wireVctr[wIndices[1]]->addGate(gate);
@@ -118,14 +107,6 @@ int main() {
   //              circDoc >> w1 >> w2;
                 createWire(to_string(wIndices[1]), wIndices[1], wireVctr);
                 createWire(to_string(wIndices[2]), wIndices[2], wireVctr);
-
-                /*if (wireVctr.size() < wireIndex) {
-                    for (int i = wireVctr.size(); i <= wireIndex; i++) {
-                        wireVctr.push_back(nullptr);
-                        wireVctr.at(i) = new Wire("", i);
-                    }
-                }*/
-
 
                 Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(1), wireVctr.at(2));
                 gateVctr.push_back(gate);
