@@ -31,17 +31,17 @@ void Wire::setState(char s) {
 void Wire::setHistory(char inputState, int inputTime) {
 
 	if (inputState == '0') {
-		for (int i = history.size(); i < inputTime; i++) {
+		for (int i = history.size(); i <= inputTime; i++) {
 			history += "_";
 		}
 	}
 	else if (inputState == '1') {
-		for (int i = history.size(); i < inputTime; i++) {
+		for (int i = history.size(); i <= inputTime; i++) {
 			history += "-";
 		}
 	}
 	else if (inputState == 'X') {
-		for (int i = history.size(); i < inputTime; i++) {
+		for (int i = history.size(); i <= inputTime; i++) {
 			history += "X";
 		}
 	}
