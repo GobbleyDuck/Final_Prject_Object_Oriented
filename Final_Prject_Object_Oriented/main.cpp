@@ -1,5 +1,3 @@
-#include "gate.h"
-#include "wire.h"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -9,6 +7,8 @@
 #include <string>
 #include "event.h"
 #include "simulate.h"
+#include "gate.h"
+#include "wire.h"
 
 
 using namespace std;
@@ -85,7 +85,7 @@ int main() {
             // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
         getline(circDoc, input);
-        stringstream ss(inputType);
+        stringstream ss(input);
         ss >> inputType;
         if (inputType == "INPUT" || inputType == "OUTPUT") {
             ss >> wireName >> wireIndex;
@@ -182,6 +182,8 @@ int main() {
         getline(vecDoc, line);
 
         vecDoc >> title >> name >> time >> value;
+
+        //at this point, it's taking the line A 4 1....?
     
         if (title != "INPUT") {
             break;
