@@ -91,10 +91,10 @@ int main() {
             circDoc >> gateDelay >> garbage;
 
             if (inputType != "NOT") {
-                circDoc >> w1 >> w2 >> w3;
-                createWire(to_string(w1), w1, wireVctr);
-                createWire(to_string(w2), w2, wireVctr);
-                createWire(to_string(w3), w3, wireVctr);
+                circDoc >> wIndices[1] >> wIndices[2] >> wIndices[3];
+                createWire(to_string(wIndices[1]), wIndices[1], wireVctr);
+                createWire(to_string(wIndices[2]), wIndices[2], wireVctr);
+                createWire(to_string(wIndices[3]), wIndices[3], wireVctr);
 
                 //for (int i = 0; i < 3; i++) {
                 //    circDoc >> wIndices[i];
@@ -109,15 +109,15 @@ int main() {
                //    tempWires[i] = wireVctr[wireIndex-1];
                 Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(1), wireVctr.at(2), wireVctr.at(3));
                 gateVctr.push_back(gate);
-                wireVctr[wIndices[0]]->addGate(gate);
                 wireVctr[wIndices[1]]->addGate(gate);
+                wireVctr[wIndices[2]]->addGate(gate);
                 circDoc >> inputType;
             }
             else {
-                circDoc >> wIndices[0] >> wIndices[1];
-                circDoc >> w1 >> w2;
-                createWire(to_string(w1), w1, wireVctr);
-                createWire(to_string(w2), w2, wireVctr);
+                circDoc >> wIndices[1] >> wIndices[2];
+  //              circDoc >> w1 >> w2;
+                createWire(to_string(wIndices[1]), wIndices[1], wireVctr);
+                createWire(to_string(wIndices[2]), wIndices[2], wireVctr);
 
                 /*if (wireVctr.size() < wireIndex) {
                     for (int i = wireVctr.size(); i <= wireIndex; i++) {
@@ -129,7 +129,7 @@ int main() {
 
                 Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(1), wireVctr.at(2));
                 gateVctr.push_back(gate);
-                wireVctr[wIndices[0]]->addGate(gate);
+                wireVctr[wIndices[1]]->addGate(gate);
                 circDoc >> inputType;
             }
 
