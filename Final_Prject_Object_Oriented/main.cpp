@@ -82,9 +82,10 @@ int main() {
         cerr << "invalid file name." << endl;
     }
 
+    getline(circDoc, input);
+
             // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
-        getline(circDoc, input);
         stringstream ss(input);
         ss >> inputType;
         if (inputType == "INPUT" || inputType == "OUTPUT") {
@@ -93,7 +94,7 @@ int main() {
             Wire* wire = new Wire(wireName, wireIndex);
  //          wireIndexes.push_back(wireIndex);
             wireVctr.push_back(wire);
-            getline(circDoc, inputType);
+            getline(circDoc, input);
         }
 
         if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT" || inputType == "NOR") {
@@ -144,16 +145,9 @@ int main() {
         
 
     // close circuit file
-    
     circDoc.close();
-
     
-  
-    
-   
-    
-    //open vector file
-    
+    //open vector file 
     vecDoc.open(vectorFileName);
     if (!vecDoc.is_open()) {
         cerr << "Error opening file" << endl;
@@ -176,12 +170,12 @@ int main() {
         return 1;
     }
 
-    getline(vecDoc, line);
+ //   getline(vecDoc, line);
 
     while (!vecDoc.eof()) {
         getline(vecDoc, line);
-
-        vecDoc >> title >> name >> time >> value;
+        stringstream ss(line);
+        ss >> title >> name >> time >> value;
 
         //at this point, it's taking the line A 4 1....?
     
