@@ -102,12 +102,14 @@ int main() {
 
         if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
             // Read in gate information and add it to the gate vector
+            string garbage;
             circDoc >> gateDelay;
+            circDoc >> garbage;
             Wire* tempWires[4];
             if (inputType != "NOT") {
                 for (int i = 0; i < 3; i++) {
                     circDoc >> wireIndex;
-                    tempWires[i] = wireVctr[wireIndex];
+                    tempWires[i] = wireVctr[wireIndex-1];
                 }
                 Gate* gate = new Gate(inputType, gateDelay, tempWires[0], tempWires[1], tempWires[2]);
                 gateVctr.push_back(gate);
