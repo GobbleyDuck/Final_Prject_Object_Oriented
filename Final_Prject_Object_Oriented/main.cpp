@@ -185,7 +185,7 @@ int main() {
             break;
         }
 
-        for (int i = 0; i < wireVctr.size(); i++) {
+        for (int i = 1; i < wireVctr.size(); i++) {
             if (name != wireVctr.at(i)->getName()) {
                 correctWire = false;
             }

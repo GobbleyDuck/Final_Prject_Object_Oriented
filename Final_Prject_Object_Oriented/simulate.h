@@ -53,7 +53,7 @@ public:
 
 		//-------------	DEBUGGING PURPOSES -----------------------
 
-		for (int i = 0; i < inputWires.size(); i++) {
+		for (int i = 1; i < inputWires.size(); i++) {
 			cout << "state of wire " << i << ": ";
 			cout << inputWires.at(i)->getState() << endl;
 		}
@@ -65,7 +65,7 @@ public:
 			inputWires.at(i)->setHistory(inputWires.at(i)->getState(), time);
 		}
 
-		for (int i = 0; i < inputWires.size(); i++) {
+		for (int i = 1; i < inputWires.size(); i++) {
 			if (inputWires.at(i)->getName() != "") {
 				cout << endl << inputWires.at(i)->getName() << "| ";
 				inputWires.at(i)->printHistory();
