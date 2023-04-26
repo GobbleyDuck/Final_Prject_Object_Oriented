@@ -24,7 +24,7 @@ void createWire(string wn, int wi, vector<Wire*>& w) {
     if (w.size() <= wi) {
         w.resize(wi + 1, NULL);
     }
-    if (w[wi] != NULL) {
+    if (w[wi] == NULL) {
         w[wi] = new Wire(wn, wi);
     }
 }
