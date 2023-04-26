@@ -17,7 +17,7 @@ using namespace std;
 * TODO:
 * revise gate constructors to take a dynamic amount of wires
 * Change the vectors to a queue
-* get the in variant of 3ns work
+* get the in variant of 3ns
 */
 
 void createWire(string wn, int wi, vector<Wire*>& w) {
@@ -43,7 +43,6 @@ int main() {
     int gateDelay;
     vector<Wire*> wireVctr;
     vector<Gate*> gateVctr;
-    vector<int> wireIndexes;
     priority_queue<Event> e;
     string inputType;
 
@@ -81,7 +80,7 @@ int main() {
             circDoc >> wireName >> wireIndex;
             // Read in input/output wire information and add it to the wire vector
 
- //           createWire(wireName, wireIndex, wireVctr);
+           createWire(wireName, wireIndex, wireVctr);
 
             circDoc >> inputType;
         }
@@ -161,9 +160,9 @@ int main() {
 
     vecDoc >> garbage >> garbage;
     vecDoc >> title; // get first line of data
+
     while (!vecDoc.eof()) {
-        //getline(vecDoc, line);
-        //stringstream ss(line);
+
         vecDoc >> name >> time >> value; // get the rest of the line
 
         //at this point, it's taking the line A 4 1....?
@@ -213,15 +212,10 @@ int main() {
 
     //---------------------------- SIMULATE ---------------------------------------------------------------------
 
-    //-------------DEBUGGING PURPOSES------------------------
-    for (int i = 0; i < wireVctr.size(); i++) {
-        cout << "state of wireVctr wire at " << i << ": ";
-        cout << wireVctr.at(i)->getState() << endl;
-    }
-    //--------------------------------------------------------
 
 
     Simulate s(e);
+
     s.simulation();
 
     s.print(time, wireVctr);
