@@ -113,6 +113,7 @@ int main() {
                 }
                 Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
                 gateVctr.push_back(gate);
+                getline(circDoc, input);
             }
             else {
                 for (int i = 0; i < 2; i++) {

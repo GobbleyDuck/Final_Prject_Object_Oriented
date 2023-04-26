@@ -42,5 +42,5 @@ void Wire::setHistory(char inputState, int inputTime) {
 	else {
 		history.at(inputTime) = inputState;
 	}
-	
+
 }
