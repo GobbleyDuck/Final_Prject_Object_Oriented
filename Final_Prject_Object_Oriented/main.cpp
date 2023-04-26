@@ -80,7 +80,7 @@ int main() {
             circDoc >> wireName >> wireIndex;
             // Read in input/output wire information and add it to the wire vector
 
-           createWire(wireName, wireIndex, wireVctr);
+            createWire(wireName, wireIndex, wireVctr);
 
             circDoc >> inputType;
         }
@@ -88,8 +88,8 @@ int main() {
 
         if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT" || inputType == "NOR") {
             // Read in gate information and add it to the gate vector
-           circDoc >> gateDelay >> garbage;
- 
+            circDoc >> gateDelay >> garbage;
+
             if (inputType != "NOT") {
                 circDoc >> w1 >> w2 >> w3;
                 createWire(to_string(w1), w1, wireVctr);
@@ -107,15 +107,13 @@ int main() {
                 //        } // swap this line with the one above - KAS
                 //    }
                //    tempWires[i] = wireVctr[wireIndex-1];
-                }
-                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1), wireVctr.at(2));
+                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(1), wireVctr.at(2), wireVctr.at(3));
                 gateVctr.push_back(gate);
                 wireVctr[wIndices[0]]->addGate(gate);
                 wireVctr[wIndices[1]]->addGate(gate);
                 circDoc >> inputType;
             }
             else {
-
                 circDoc >> wIndices[0] >> wIndices[1];
                 circDoc >> w1 >> w2;
                 createWire(to_string(w1), w1, wireVctr);
@@ -128,12 +126,15 @@ int main() {
                     }
                 }*/
 
-            }
-                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1));
+
+                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(1), wireVctr.at(2));
                 gateVctr.push_back(gate);
                 wireVctr[wIndices[0]]->addGate(gate);
                 circDoc >> inputType;
             }
+
+        }
+    }
         
      
 
