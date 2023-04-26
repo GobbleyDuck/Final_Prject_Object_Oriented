@@ -19,6 +19,7 @@ using namespace std;
 * Change the vectors to a queue
 * get the in variant of 3ns
 */
+
 vector<int> sort(vector<int> inputVctr) {
     vector<int> sortedWires;
     sort(inputVctr.begin(), inputVctr.end());
@@ -33,7 +34,14 @@ vector<int> sort(vector<int> inputVctr) {
     return sortedWires;
 }
 
-
+void createWire(string wn, int wi, vector<Wire*>& w) {
+    if (w.size() <= wi) {
+        w.resize(wi + 1, NULL);
+    }
+    if (w[wi] != NULL) {
+        w[wi] = new Wire(wn, wi);
+    }
+}
 
 
 int main() {
@@ -91,10 +99,7 @@ int main() {
         if (inputType == "INPUT" || inputType == "OUTPUT") {
             circDoc >> wireName >> wireIndex;
             // Read in input/output wire information and add it to the wire vector
-            Wire* wire = new Wire(wireName, wireIndex);
- //          wireIndexes.push_back(wireIndex);
-            wireVctr.push_back(wire);
-            getline(circDoc, input);
+            createWire(wireName, wireIndex, wireVctr);
         }
 
 
