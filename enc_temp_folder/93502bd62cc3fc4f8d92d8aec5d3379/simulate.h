@@ -86,11 +86,6 @@ public:
 			}
 		}
 		
-		if (time < 59) {
-			cout << "--" << endl;
-			cout << "    ";
-		}
-
 		cout << endl;
 
 
