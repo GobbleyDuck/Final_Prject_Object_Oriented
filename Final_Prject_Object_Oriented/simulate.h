@@ -67,7 +67,7 @@ public:
 
 		for (int i = 0; i < inputWires.size(); i++) {
 			if (inputWires.at(i)->getName() != "") {
-				cout << endl << inputWires.at(i)->getName()/* << " | "*/;
+				cout << endl << inputWires.at(i)->getName() << "| ";
 				inputWires.at(i)->printHistory();
 				cout << " |";
 			}
@@ -89,16 +89,16 @@ public:
 				break;
 			}
 			else if ((i % 5) == 0) {
-				cout << i / 10;
+				cout << i;
 			}
 			else {
 				cout << "-";
 			}
-		}
-		
-		if (time < 59) {
-			cout << "--" << endl;
-			cout << "    ";
+
+
+			if (time < 59) {
+				cout << "--";
+			}
 		}
 
 		cout << endl;
