@@ -21,7 +21,7 @@ public:
 	char getState()const { return state; }
 	vector<Gate*> getDrives() const { return drives; }
 	int getIndex() const { return index; }
-	vector<char> getHistory() const { return history; }
+	string getHistory() const { return history; }
 
 	void addGate(Gate*);
 	void setState(char);
@@ -36,7 +36,7 @@ private:
 	char state;
 	vector <Gate*> drives;
 	int index;
-	vector<char> history;
+	string history;
 	int time;
 
 };

@@ -98,6 +98,7 @@ int main() {
             Wire* wire = new Wire(wireName, wireIndex);
             wireIndexes.push_back(wireIndex);
             wireVctr.push_back(wire);
+            getline(circDoc, inputType);
         }
 
         if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
@@ -109,6 +110,13 @@ int main() {
             if (inputType != "NOT") {
                 for (int i = 0; i < 3; i++) {
                     circDoc >> wireIndex;
+                    //if wire DNE yet, resize 
+                    if (wireVctr.size() < wireIndex) {
+                        for (int i = wireVctr.size(); i <= wireIndex; i++) {
+                            wireVctr.push_back(nullptr);
+                            wireVctr.at(i) = new Wire("", i);
+                        }
+                    }
                     tempWires[i] = wireVctr[wireIndex-1];
                 }
                 Gate* gate = new Gate(inputType, gateDelay, tempWires[0], tempWires[1], tempWires[2]);
@@ -136,16 +144,16 @@ int main() {
         
 
     // close circuit file
-    cout << "closing circuit file..." << endl;
+    
     circDoc.close();
 
-    Wire w;
-
-    w.printWire();
+    
+  
+    
    
     
     //open vector file
-    cout << "opening vector file..." << endl;
+    
     vecDoc.open(vectorFileName);
     if (!vecDoc.is_open()) {
         cerr << "Error opening file" << endl;
@@ -159,6 +167,7 @@ int main() {
     int time = -1;
     char value; 
     Wire* wire = nullptr;
+    bool correctWire = true;
     
 
     getline(vecDoc, line);
@@ -190,8 +199,20 @@ int main() {
         if (value != '0' && value != '1' && value != 'X') {
             break;
         }
+
+        for (int i = 0; i < wireVctr.size(); i++) {
+            if (name != wireVctr.at(i)->getName()) {
+                correctWire = false;
+            }
+            else {
+                correctWire = true;
+                wire = wireVctr.at(i);
+                break;
+            }
+        }
         
-       
+        
+
         //populate event queue
        
         Event newEvent = Event(wire, e.size() + 1, time, value);
@@ -206,7 +227,6 @@ int main() {
         getline(vecDoc, line);
     }
 
-    cout << "closing vector document..." << endl;
     vecDoc.close();
 
     //---------------------------- SIMULATE ---------------------------------------------------------------------
