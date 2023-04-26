@@ -15,8 +15,9 @@ Wire::Wire() {
 
 void Wire::printHistory() {
 	for (int i = 0; i < history.size(); i++) {
-		cout << history.at(i) << endl;
+		cout << history.at(i);
 	}
+	cout << endl;
 }
 
 void Wire::addGate(Gate* inputGate) {
