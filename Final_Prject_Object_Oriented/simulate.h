@@ -51,7 +51,7 @@ public:
 
 		time++;
 
-		for (int i = 1; inputWires.size(); i++) {
+		for (int i = 1; i < inputWires.size(); i++) {
 			inputWires.at(i)->setHistory(inputWires.at(i)->getState(), time);
 		}
 
