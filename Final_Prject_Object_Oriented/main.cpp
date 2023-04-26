@@ -91,7 +91,7 @@ int main() {
             ss >> wireName >> wireIndex;
             // Read in input/output wire information and add it to the wire vector
             Wire* wire = new Wire(wireName, wireIndex);
- //           wireIndexes.push_back(wireIndex);
+ //          wireIndexes.push_back(wireIndex);
             wireVctr.push_back(wire);
             getline(circDoc, inputType);
         }
@@ -206,6 +206,7 @@ int main() {
             }
             else {
                 correctWire = true;
+
                 wire = wireVctr.at(i);
                 wireVctr.at(i)->setState(value);
                 break;
