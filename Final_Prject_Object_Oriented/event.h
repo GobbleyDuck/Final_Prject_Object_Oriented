@@ -14,12 +14,6 @@ using namespace std;
 class Event {
 public:
 	//constructors:
-	Event() {
-		time = -1;
-		count = -1;
-		value = 'X';
-	}
-
 	Event(Wire* w, int c, int t, char v) { 
 		wire = w; 
 		count = c; // event number (event1, event2...) 

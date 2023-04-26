@@ -44,7 +44,3 @@ void Wire::setHistory(char inputState, int inputTime) {
 	}
 	
 }
-
-void Wire::printWire() {
-	
-}
