@@ -1,11 +1,13 @@
 #include "wire.h"
 
+
 Wire::Wire(string n = "", int i = 0) {
 	name = n;
 	state = 'X';
 	index = i;
 
 }
+
 Wire::Wire() {
 	name = "";
 	state = 'X';
@@ -27,23 +29,6 @@ void Wire::setState(char s) {
 	state = s;
 }
 void Wire::setHistory(char inputState, int inputTime) {
-	//if (history.size() >= 2) {
-	//	if (history.at(inputState - 1) != '/n') {
-	//		history.at(inputTime) = inputState;
-	//	}
-	//	else {
-	//		//loop until reach blank element
-	//		for (int i = 0; i < history.size(); i++) {
-	//			if (history.at(i) == '/n') {
-	//				history.at(i) = inputState;
-	//			}
-	//		}
-	//	}
-	//}
-	//else {
-	//	history.at(inputTime) = inputState;
-	//}
-	//
 
 	if (inputState == '0') {
 		for (int i = history.size(); i < inputTime; i++) {
@@ -67,14 +52,3 @@ void Wire::setHistory(char inputState, int inputTime) {
 		}
 	}
 }
-
-//void Wire::printWire() {
-//	cout << "name: " << name << endl;
-//	cout << "state: " << state << endl;
-//	cout << "drives: " << endl;
-//	for (int i = 0; i < drives.size(); i++) {
-//		cout << drives.at(i) << " ";
-//	}
-//	cout << endl << "index: " << index << endl;
-//	cout << "time: " << time << endl;
-//}

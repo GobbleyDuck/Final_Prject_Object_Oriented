@@ -16,9 +16,6 @@ using namespace std;
 /*
 * TODO:
 * revise gate constructors to take a dynamic amount of wires
-* Create Event - only create a new event if the output changes
-* Create Simulate
-* Create Print
 * Change the vectors to a queue
 * get the in variant of 3ns
 */
@@ -62,11 +59,6 @@ int main() {
     circuitFileName = baseFileName + ".txt";
     vectorFileName = baseFileName + "_v.txt";
     
-    // take in file then append .txt
-    // get whole line then use stringstream
-    // overload < operator to use priority queue
-    // least time comes first
-    // second variable to sort - count based on when comes first if time is same
 
 
     //----------------------------- OPEN TEXT FILE --------------------------------------------
@@ -92,12 +84,14 @@ int main() {
 
             // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
-        circDoc >> inputType;
+        getline(circDoc, input);
+        stringstream ss(inputType);
+        ss >> inputType;
         if (inputType == "INPUT" || inputType == "OUTPUT") {
-            circDoc >> wireName >> wireIndex;
+            ss >> wireName >> wireIndex;
             // Read in input/output wire information and add it to the wire vector
             Wire* wire = new Wire(wireName, wireIndex);
-            wireIndexes.push_back(wireIndex);
+ //           wireIndexes.push_back(wireIndex);
             wireVctr.push_back(wire);
             getline(circDoc, inputType);
         }
@@ -105,12 +99,11 @@ int main() {
         if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT" || inputType == "NOR") {
             // Read in gate information and add it to the gate vector
             string garbage;
-            circDoc >> gateDelay;
-            circDoc >> garbage;
+            ss >> gateDelay >> garbage;
             Wire* tempWires[4];
             if (inputType != "NOT") {
                 for (int i = 0; i < 3; i++) {
-                    circDoc >> wireIndex;
+                    ss >> wireIndex;
                     //if wire DNE yet, resize 
                     if (wireVctr.size() < wireIndex) {
                         for (int i = wireVctr.size(); i <= wireIndex; i++) {
@@ -118,18 +111,24 @@ int main() {
                             wireVctr.at(i) = new Wire("", i);
                         }
                     }
-                    tempWires[i] = wireVctr[wireIndex-1];
+                   tempWires[i] = wireVctr[wireIndex-1];
                 }
-                Gate* gate = new Gate(inputType, gateDelay, tempWires[0], tempWires[1], tempWires[2]);
+                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1), wireVctr.at(3));
                 gateVctr.push_back(gate);
                 getline(circDoc, input);
             }
             else {
                 for (int i = 0; i < 2; i++) {
-                    circDoc >> wireIndex;
+                    ss >> wireIndex;
+                    if (wireVctr.size() < wireIndex) {
+                        for (int i = wireVctr.size(); i <= wireIndex; i++) {
+                            wireVctr.push_back(nullptr);
+                            wireVctr.at(i) = new Wire("", i);
+                        }
+                    }
                     tempWires[i] = wireVctr[wireIndex];
                 }
-                Gate* gate = new Gate(inputType, gateDelay, tempWires[0], tempWires[1]);
+                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1));
                 gateVctr.push_back(gate);
                 getline(circDoc, input);
             }
@@ -208,21 +207,17 @@ int main() {
             else {
                 correctWire = true;
                 wire = wireVctr.at(i);
+                wireVctr.at(i)->setState(value);
                 break;
             }
         }
         
         
-
+        
         //populate event queue
        
         Event newEvent = Event(wire, e.size() + 1, time, value);
         e.push(newEvent);
-
-       /* cout << "count: " << newEvent.getCount() << endl;
-        cout << " wire: " << newEvent.GetEventWire() << endl;
-        cout <<  "time: " << newEvent.getTime() << endl;
-        cout << "value: " << newEvent.getValue() << endl;*/
        
 
         getline(vecDoc, line);
@@ -232,24 +227,13 @@ int main() {
 
     //---------------------------- SIMULATE ---------------------------------------------------------------------
 
+    //-------------DEBUGGING PURPOSES------------------------
+    for (int i = 0; i < wireVctr.size(); i++) {
+        cout << "state of wireVctr wire at " << i << ": ";
+        cout << wireVctr.at(i)->getState() << endl;
+    }
+    //--------------------------------------------------------
 
-
-    
-
-
-    //// while the priority queue still has events in it, read an event, handle it, then delete it
-    //while(!e.empty() && time <= 60){
-
-    //    //get top event from queue and creates wire from queue
-    //    Event currEvent = e.top();
-    //    time = currEvent.getTime();
-
-    //    currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
-    //    currEvent.GetEventWire()->setState(currEvent.getValue());
-
-
-    //    e.pop();
-    //}
 
     Simulate s(e);
     s.simulation();
