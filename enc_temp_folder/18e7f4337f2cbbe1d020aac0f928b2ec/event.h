@@ -28,10 +28,10 @@ public:
 	}
 
 	//getters: CHANGE TIMING TO A DIF NAME
-	int getTime() const{ return time; }
-	int getCount() const{ return count; }
-	char getValue()const { return value; }
-	Wire* GetEventWire() const{ return wire; }
+	int getTime() { return time; }
+	int getCount() { return count; }
+	char getValue() { return value; }
+	Wire* GetEventWire() { return wire; }
 
 
 	bool friend operator<(const Event& lhs, const Event& rhs) {
