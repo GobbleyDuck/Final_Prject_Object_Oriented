@@ -19,19 +19,7 @@ using namespace std;
 * Change the vectors to a queue
 * get the in variant of 3ns
 */
-vector<int> sort(vector<int> inputVctr) {
-    vector<int> sortedWires;
-    sort(inputVctr.begin(), inputVctr.end());
-    for (int i = 0; i < inputVctr.size(); i++) {
-        if (inputVctr[i] == i) {
-            sortedWires[i] = inputVctr[i];
-        }
-        else {
-            sortedWires[i] = 0;
-        }
-    }
-    return sortedWires;
-}
+
 
 
 
@@ -70,31 +58,25 @@ int main() {
         return 1;
     }
 
-    
 
     //------------------------------- READ FILE --------------------------------------------------
-    // Read in the circuit type from the input file
-    string input;
-    getline(circDoc, input);
+    string garbage;
+    int w1;
+    int w2;
+    int w3;
+    int wIndices[3];
 
-        // Check if the circuit type is valid
-    if (input.substr(0,7) != "CIRCUIT") {
-        cerr << "invalid file name." << endl;
-    }
-
-    //getline(circDoc, input);
-
-            // Loop through the input file to read in circuit components
+    circDoc >> garbage >> garbage;
+    circDoc >> inputType;
+    // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
-        //stringstream ss(input);
-        circDoc >> inputType;
         if (inputType == "INPUT" || inputType == "OUTPUT") {
             circDoc >> wireName >> wireIndex;
             // Read in input/output wire information and add it to the wire vector
-            Wire* wire = new Wire(wireName, wireIndex);
- //          wireIndexes.push_back(wireIndex);
-            wireVctr.push_back(wire);
-            getline(circDoc, input);
+
+ //           createWire(wireName, wireIndex, wireVctr);
+
+            circDoc >> inputType;
         }
 
 
@@ -102,53 +84,53 @@ int main() {
             // Read in gate information and add it to the gate vector
            string garbage;
            circDoc >> gateDelay >> garbage;
-            Wire* tempWires[3];
-            int wIndices[3];
+ 
             if (inputType != "NOT") {
-                for (int i = 0; i < 3; i++) {
-                    circDoc >> wIndices[i];
-                    //if wire DNE yet, resize
-                    // may not work with internal wires - KAS
-                    if (wireVctr.size() < wireIndex) {
-                        for (int i = wireVctr.size(); i <= wireIndex; i++) {
-                            wireVctr.push_back(nullptr);
-                            wireVctr.at(i) = new Wire("", i); // only if its nullptr - KAS
-                        } // swap this line with the one above - KAS
-                    }
-                   tempWires[i] = wireVctr[wireIndex-1];
+                circDoc >> w1 >> w2 >> w3;
+                createWire(to_string(w1), w1, wireVctr);
+                createWire(to_string(w2), w2, wireVctr);
+                createWire(to_string(w3), w3, wireVctr);
+
+                //for (int i = 0; i < 3; i++) {
+                //    circDoc >> wIndices[i];
+                //    //if wire DNE yet, resize
+                //    // may not work with internal wires - KAS
+                //    if (wireVctr.size() < wireIndex) {
+                //        for (int i = wireVctr.size(); i <= wireIndex; i++) {
+                //            wireVctr.push_back(nullptr);
+                //            wireVctr.at(i) = new Wire("", i); // only if its nullptr - KAS
+                //        } // swap this line with the one above - KAS
+                //    }
+               //    tempWires[i] = wireVctr[wireIndex-1];
                 }
                 Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1), wireVctr.at(2));
                 gateVctr.push_back(gate);
                 wireVctr[wIndices[0]]->addGate(gate);
                 wireVctr[wIndices[1]]->addGate(gate);
-                getline(circDoc, input);
+                circDoc >> inputType;
             }
             else {
-                for (int i = 0; i < 2; i++) {
-                    circDoc >> wIndices[i];
-                    if (wireVctr.size() < wireIndex) {
-                        for (int i = wireVctr.size(); i <= wireIndex; i++) {
-                            wireVctr.push_back(nullptr);
-                            wireVctr.at(i) = new Wire("", i);
-                        }
+
+                circDoc >> wIndices[0] >> wIndices[1];
+                circDoc >> w1 >> w2;
+                createWire(to_string(w1), w1, wireVctr);
+                createWire(to_string(w2), w2, wireVctr);
+
+                /*if (wireVctr.size() < wireIndex) {
+                    for (int i = wireVctr.size(); i <= wireIndex; i++) {
+                        wireVctr.push_back(nullptr);
+                        wireVctr.at(i) = new Wire("", i);
                     }
-                    tempWires[i] = wireVctr[wireIndex];
-                }
+                }*/
+
+            }
                 Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1));
                 gateVctr.push_back(gate);
                 wireVctr[wIndices[0]]->addGate(gate);
-                getline(circDoc, input);
+                circDoc >> inputType;
             }
-            string s = "";
-            circDoc >> s;
-            if (s == "") {
-                break;
-            }
-        }
-    }
-            
-      
         
+     
 
     // close circuit file
     circDoc.close();
@@ -170,13 +152,7 @@ int main() {
     bool correctWire = true;
     
 
-    // getline(vecDoc, line);
-    //if (line.substr(0, 6) != "VECTOR") {
-    //    cerr << "Incorrect file formatting - please fix and try again.";
-    //    return 1;
-    //}
 
- //   getline(vecDoc, line);
     string garbage;
     vecDoc >> garbage >> garbage;
     vecDoc >> title; // get first line of data
