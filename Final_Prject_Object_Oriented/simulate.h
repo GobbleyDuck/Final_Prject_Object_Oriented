@@ -67,7 +67,7 @@ public:
 
 		for (int i = 0; i < inputWires.size(); i++) {
 			if (inputWires.at(i)->getName() != "") {
-				cout << endl << inputWires.at(i)->getName() << " | ";
+				cout << endl << inputWires.at(i)->getName()/* << " | "*/;
 				inputWires.at(i)->printHistory();
 				cout << " |";
 			}
