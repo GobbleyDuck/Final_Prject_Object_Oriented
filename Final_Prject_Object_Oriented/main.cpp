@@ -84,12 +84,14 @@ int main() {
 
             // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
-        circDoc >> inputType;
+        getline(circDoc, input);
+        stringstream ss(inputType);
+        ss >> inputType;
         if (inputType == "INPUT" || inputType == "OUTPUT") {
-            circDoc >> wireName >> wireIndex;
+            ss >> wireName >> wireIndex;
             // Read in input/output wire information and add it to the wire vector
             Wire* wire = new Wire(wireName, wireIndex);
-            wireIndexes.push_back(wireIndex);
+ //           wireIndexes.push_back(wireIndex);
             wireVctr.push_back(wire);
             getline(circDoc, inputType);
         }
@@ -97,12 +99,11 @@ int main() {
         if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT" || inputType == "NOR") {
             // Read in gate information and add it to the gate vector
             string garbage;
-            circDoc >> gateDelay;
-            circDoc >> garbage;
+            ss >> gateDelay >> garbage;
             Wire* tempWires[4];
             if (inputType != "NOT") {
                 for (int i = 0; i < 3; i++) {
-                    circDoc >> wireIndex;
+                    ss >> wireIndex;
                     //if wire DNE yet, resize 
                     if (wireVctr.size() < wireIndex) {
                         for (int i = wireVctr.size(); i <= wireIndex; i++) {
@@ -110,18 +111,24 @@ int main() {
                             wireVctr.at(i) = new Wire("", i);
                         }
                     }
-                    tempWires[i] = wireVctr[wireIndex-1];
+                   tempWires[i] = wireVctr[wireIndex-1];
                 }
-                Gate* gate = new Gate(inputType, gateDelay, tempWires[0], tempWires[1], tempWires[2]);
+                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1), wireVctr.at(3));
                 gateVctr.push_back(gate);
                 getline(circDoc, input);
             }
             else {
                 for (int i = 0; i < 2; i++) {
-                    circDoc >> wireIndex;
+                    ss >> wireIndex;
+                    if (wireVctr.size() < wireIndex) {
+                        for (int i = wireVctr.size(); i <= wireIndex; i++) {
+                            wireVctr.push_back(nullptr);
+                            wireVctr.at(i) = new Wire("", i);
+                        }
+                    }
                     tempWires[i] = wireVctr[wireIndex];
                 }
-                Gate* gate = new Gate(inputType, gateDelay, tempWires[0], tempWires[1]);
+                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1));
                 gateVctr.push_back(gate);
                 getline(circDoc, input);
             }
