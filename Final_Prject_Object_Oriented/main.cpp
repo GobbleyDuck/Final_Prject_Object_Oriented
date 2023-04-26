@@ -70,7 +70,7 @@ int main() {
     int w1;
     int w2;
     int w3;
-    int wIndices[3];
+    int wIndices[4] = { 0,0,0, 0};
 
     circDoc >> garbage >> garbage;
     circDoc >> inputType;
@@ -206,6 +206,15 @@ int main() {
 
 
 
-    
+    // Delete Wire objects
+    for (auto wire : wireVctr) {
+        delete wire;
+    }
+
+    // Delete Gate objects
+    for (auto gate : gateVctr) {
+        delete gate;
+    }
+
     return 0;
 }
