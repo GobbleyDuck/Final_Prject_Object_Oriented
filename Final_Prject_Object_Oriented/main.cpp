@@ -96,7 +96,7 @@ int main() {
                 createWire(to_string(wIndices[2]), wIndices[2], wireVctr);
                 createWire(to_string(wIndices[3]), wIndices[3], wireVctr);
 
-                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(1), wireVctr.at(2), wireVctr.at(3));
+                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(wIndices[1]), wireVctr.at(wIndices[2]), wireVctr.at(wIndices[3]));
                 gateVctr.push_back(gate);
                 wireVctr[wIndices[1]]->addGate(gate);
                 wireVctr[wIndices[2]]->addGate(gate);
@@ -108,7 +108,7 @@ int main() {
                 createWire(to_string(wIndices[1]), wIndices[1], wireVctr);
                 createWire(to_string(wIndices[2]), wIndices[2], wireVctr);
 
-                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(1), wireVctr.at(2));
+                Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(wIndices[1]), wireVctr.at(wIndices[2]));
                 gateVctr.push_back(gate);
                 wireVctr[wIndices[1]]->addGate(gate);
                 circDoc >> inputType;
@@ -147,8 +147,6 @@ int main() {
 
 
         vecDoc >> name >> time >> value; // get the rest of the line
-
-        //at this point, it's taking the line A 4 1....?
     
         if (title != "INPUT") {
             break;
@@ -167,18 +165,28 @@ int main() {
             break;
         }
 
-        for (int i = 1; i < wireVctr.size(); i++) {
-            if (name != wireVctr.at(i)->getName()) {
-                correctWire = false;
-            }
-            else {
-                correctWire = true;
+        //if the vector element whose name is the same as name in line 149:
+        // wire = wireVctr.at(i);
+        // break;
+        //else:
+        //continue?
 
-                wire = wireVctr.at(i);
-//                wireVctr.at(i)->setState(value);
-                break;
-            }
-        }
+        
+        
+
+
+//        for (int i = 1; i < wireVctr.size(); i++) {
+//            if (name != wireVctr.at(i)->getName()) {
+//                correctWire = false;
+//            }
+//            else {
+//                correctWire = true;
+//
+//                wire = wireVctr.at(i);
+
+//                break;
+//            }
+//        }
         
         
         
