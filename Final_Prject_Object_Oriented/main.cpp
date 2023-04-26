@@ -103,25 +103,29 @@ int main() {
            string garbage;
            circDoc >> gateDelay >> garbage;
             Wire* tempWires[3];
+            int wIndices[3];
             if (inputType != "NOT") {
                 for (int i = 0; i < 3; i++) {
-                    circDoc >> wireIndex;
+                    circDoc >> wIndices[i];
                     //if wire DNE yet, resize
+                    // may not work with internal wires - KAS
                     if (wireVctr.size() < wireIndex) {
                         for (int i = wireVctr.size(); i <= wireIndex; i++) {
                             wireVctr.push_back(nullptr);
-                            wireVctr.at(i) = new Wire("", i);
-                        }
+                            wireVctr.at(i) = new Wire("", i); // only if its nullptr - KAS
+                        } // swap this line with the one above - KAS
                     }
                    tempWires[i] = wireVctr[wireIndex-1];
                 }
                 Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1), wireVctr.at(2));
                 gateVctr.push_back(gate);
+                wireVctr[wIndices[0]]->addGate(gate);
+                wireVctr[wIndices[1]]->addGate(gate);
                 getline(circDoc, input);
             }
             else {
                 for (int i = 0; i < 2; i++) {
-                    circDoc >> wireIndex;
+                    circDoc >> wIndices[i];
                     if (wireVctr.size() < wireIndex) {
                         for (int i = wireVctr.size(); i <= wireIndex; i++) {
                             wireVctr.push_back(nullptr);
@@ -132,6 +136,7 @@ int main() {
                 }
                 Gate* gate = new Gate(inputType, gateDelay, wireVctr.at(0), wireVctr.at(1));
                 gateVctr.push_back(gate);
+                wireVctr[wIndices[0]]->addGate(gate);
                 getline(circDoc, input);
             }
             string s = "";
@@ -165,18 +170,20 @@ int main() {
     bool correctWire = true;
     
 
-    getline(vecDoc, line);
-    if (line.substr(0, 6) != "VECTOR") {
-        cerr << "Incorrect file formatting - please fix and try again.";
-        return 1;
-    }
+    // getline(vecDoc, line);
+    //if (line.substr(0, 6) != "VECTOR") {
+    //    cerr << "Incorrect file formatting - please fix and try again.";
+    //    return 1;
+    //}
 
  //   getline(vecDoc, line);
-
+    string garbage;
+    vecDoc >> garbage >> garbage;
+    vecDoc >> title; // get first line of data
     while (!vecDoc.eof()) {
-        getline(vecDoc, line);
-        stringstream ss(line);
-        ss >> title >> name >> time >> value;
+        //getline(vecDoc, line);
+        //stringstream ss(line);
+        vecDoc >> name >> time >> value; // get the rest of the line
 
         //at this point, it's taking the line A 4 1....?
     
@@ -218,7 +225,7 @@ int main() {
         e.push(newEvent);
        
 
-        getline(vecDoc, line);
+        vecDoc >> title; // get next line of data
     }
 
     vecDoc.close();
