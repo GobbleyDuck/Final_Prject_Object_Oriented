@@ -46,10 +46,10 @@ int main() {
     string vectorFileName;
     ifstream circDoc(circuitFileName);
     ifstream vecDoc(vectorFileName);
-    int wireIndex[3] = { 0,0,0 };
+    int wireIndex;
     int gateDelay;
-    vector<Wire> wireVctr;
-    vector<Gate> gateVctr;
+    vector<Wire*> wireVctr;
+    vector<Gate*> gateVctr;
     vector<int> wireIndexes;
     priority_queue<Event> e;
     string inputType;
@@ -93,35 +93,38 @@ int main() {
     while (!circDoc.eof()) {
         circDoc >> inputType;
         if (inputType == "INPUT" || inputType == "OUTPUT") {
-            circDoc >> wireName >> wireIndex[0];
+            circDoc >> wireName >> wireIndex;
             // Read in input/output wire information and add it to the wire vector
-            Wire wire(wireName, wireIndex[0]);
-            wireIndexes.push_back(wireIndex[0]);
+            Wire* wire = new Wire(wireName, wireIndex);
+            wireIndexes.push_back(wireIndex);
             wireVctr.push_back(wire);
-            //getline(circDoc, input);
         }
-
 
         if (inputType == "AND" || inputType == "NAND" || inputType == "OR" || inputType == "XOR" || inputType == "NOT") {
             // Read in gate information and add it to the gate vector
             circDoc >> gateDelay;
-            Wire tempWires[4];
+            Wire* tempWires[4];
             if (inputType != "NOT") {
                 for (int i = 0; i < 3; i++) {
-                    circDoc >> wireIndex[i];
-                    tempWires[i] = wireVctr[wireIndex[i]];
+                    circDoc >> wireIndex;
+                    tempWires[i] = wireVctr[wireIndex];
                 }
-                Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1], &tempWires[2]);
+                Gate* gate = new Gate(inputType, gateDelay, tempWires[0], tempWires[1], tempWires[2]);
                 gateVctr.push_back(gate);
             }
             else {
                 for (int i = 0; i < 2; i++) {
-                    circDoc >> wireIndex[i];
-                    tempWires[i] = wireVctr[wireIndex[i]];
+                    circDoc >> wireIndex;
+                    tempWires[i] = wireVctr[wireIndex];
                 }
-                Gate gate(inputType, gateDelay, &tempWires[0], &tempWires[1]);
+                Gate* gate = new Gate(inputType, gateDelay, tempWires[0], tempWires[1]);
                 gateVctr.push_back(gate);
                 getline(circDoc, input);
+            }
+            string s = "";
+            circDoc >> s;
+            if (s == "") {
+                break;
             }
         }
     }
@@ -133,9 +136,13 @@ int main() {
     cout << "closing circuit file...";
     circDoc.close();
 
+
+    for (int i = 0; i < wireVctr.size(); i++) {
+        cout << wireVctr.at(i) << endl;
+    }
     
     //open vector file
-    cout << "opening vector file...";
+    cout << "opening vector file..." << endl;
     vecDoc.open(vectorFileName);
     if (!vecDoc.is_open()) {
         cerr << "Error opening file" << endl;
@@ -181,18 +188,27 @@ int main() {
             break;
         }
         
+        for (int i = 0; i < wireVctr.size(); i++) {
+            if (name == wireVctr.at(i)->getName()) {
+                wire = wireVctr.at(i);
+                break;
+            }
+        }
         //populate event queue
        
         Event newEvent = Event(wire, e.size() + 1, time, value);
         e.push(newEvent);
 
-        cout << "count: " << newEvent.getCount() << " wire: " << newEvent.GetEventWire() << " time: " << newEvent.getTime() << " value: " << newEvent.getValue() << endl;
-        
+        cout << "count: " << newEvent.getCount() << endl;
+        cout << " wire: " << newEvent.GetEventWire() << endl;
+        cout <<  "time: " << newEvent.getTime() << endl;
+        cout << "value: " << newEvent.getValue() << endl;
+       
 
         getline(vecDoc, line);
     }
 
-    cout << "closing vector document...";
+    cout << "closing vector document..." << endl;
     vecDoc.close();
 
     //---------------------------- SIMULATE ---------------------------------------------------------------------

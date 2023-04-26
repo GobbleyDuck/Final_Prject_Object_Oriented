@@ -17,14 +17,14 @@ public:
 		this->output = output;
 		setInput(input1);
 		setInput(input2);
-	};
+	}
 	
 	Gate(string type, int delay, Wire* input1, Wire* output) {
 		this->type = type;
 		this->delay = delay;
 		this->output = output;
 		setInput(input1);
-	};
+	}
 
 	//getters
 	int getDelay()const {return delay;}

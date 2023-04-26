@@ -22,10 +22,10 @@ public:
 			currEvent = eventQueue.top();
 			time = currEvent.getTime();
 			
-			////check if event creates a change in the wire - if no, discard event
-			//if (currEvent.getValue() == currEvent.GetEventWire()->getState()) {
-			//	break;
-			//}
+			//check if event creates a change in the wire - if no, discard event
+			if (currEvent.getValue() == currEvent.GetEventWire()->getState()) {
+				break;
+			}
 
 
 			//fill in gaps with setHistory()

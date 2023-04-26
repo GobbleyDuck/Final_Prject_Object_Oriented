@@ -29,8 +29,6 @@ public:
 
 	void printHistory();
 
-	void printWire();
-
 private:
 	string name;
 	char state;
