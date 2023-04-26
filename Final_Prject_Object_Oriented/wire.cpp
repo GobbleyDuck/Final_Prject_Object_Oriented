@@ -46,17 +46,17 @@ void Wire::setHistory(char inputState, int inputTime) {
 
 	if (inputState == '0') {
 		for (int i = history.size(); i < inputTime; i++) {
-			history.push_back('_');
+			history += "_";
 		}
 	}
 	else if (inputState == '1') {
 		for (int i = history.size(); i < inputTime; i++) {
-			history.push_back('-');
+			history += "-";
 		}
 	}
 	else if (inputState == 'X') {
 		for (int i = history.size(); i < inputTime; i++) {
-			history.push_back('X');
+			history += "X";
 		}
 	}
 
@@ -67,13 +67,13 @@ void Wire::setHistory(char inputState, int inputTime) {
 	}
 }
 
-void Wire::printWire() {
-	cout << "name: " << name << endl;
-	cout << "state: " << state << endl;
-	cout << "drives: " << endl;
-	for (int i = 0; i < drives.size(); i++) {
-		cout << drives.at(i) << " ";
-	}
-	cout << endl << "index: " << index << endl;
-	cout << "time: " << time << endl;
-}
+//void Wire::printWire() {
+//	cout << "name: " << name << endl;
+//	cout << "state: " << state << endl;
+//	cout << "drives: " << endl;
+//	for (int i = 0; i < drives.size(); i++) {
+//		cout << drives.at(i) << " ";
+//	}
+//	cout << endl << "index: " << index << endl;
+//	cout << "time: " << time << endl;
+//}

@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include "event.h"
+#include "simulate.h"
 
 
 using namespace std;
@@ -236,21 +237,26 @@ int main() {
     
 
 
-    // while the priority queue still has events in it, read an event, handle it, then delete it
-    while(!e.empty() && time <= 60){
+    //// while the priority queue still has events in it, read an event, handle it, then delete it
+    //while(!e.empty() && time <= 60){
 
-        //get top event from queue and creates wire from queue
-        Event currEvent = e.top();
-        time = currEvent.getTime();
+    //    //get top event from queue and creates wire from queue
+    //    Event currEvent = e.top();
+    //    time = currEvent.getTime();
 
-        currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
-        currEvent.GetEventWire()->setState(currEvent.getValue());
+    //    currEvent.GetEventWire()->setHistory(currEvent.getValue(), currEvent.getTime());
+    //    currEvent.GetEventWire()->setState(currEvent.getValue());
 
 
-        e.pop();
-    }
+    //    e.pop();
+    //}
 
-    
+    Simulate s(e);
+    s.simulation();
+
+    s.print(time, wireVctr);
+
+
 
 
 

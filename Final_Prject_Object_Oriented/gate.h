@@ -11,20 +11,9 @@ class Wire;
 class Gate {
 public:
 	//constructors
-	Gate(string type, int delay, Wire* input1, Wire* input2, Wire* output) {
-		this->type = type;
-		this->delay = delay;
-		this->output = output;
-		setInput(input1);
-		setInput(input2);
-	}
+	Gate(string type, int delay, Wire* input1, Wire* input2, Wire* output);
 	
-	Gate(string type, int delay, Wire* input1, Wire* output) {
-		this->type = type;
-		this->delay = delay;
-		this->output = output;
-		setInput(input1);
-	}
+	Gate(string type, int delay, Wire* input1, Wire* output); 
 
 	//getters
 	int getDelay()const {return delay;}

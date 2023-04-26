@@ -1,6 +1,22 @@
 #include "gate.h"
 #include "wire.h"
 
+
+Gate::Gate(string type, int delay, Wire* input1, Wire* input2, Wire* output) {
+	this->type = type;
+	this->delay = delay;
+	this->output = output;
+	setInput(input1);
+	setInput(input2);
+}
+
+Gate::Gate(string type, int delay, Wire* input1, Wire* output) {
+	this->type = type;
+	this->delay = delay;
+	this->output = output;
+	setInput(input1);
+}
+
 void Gate::setType(string type) {
 	this->type = type;
 }
