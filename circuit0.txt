@@ -1,4 +1,4 @@
-CIRCUIT SimpleCircuit
+cCIRCUIT SimpleCircuit
 INPUT   A    1
 INPUT   B    2
 OUTPUT  C    3

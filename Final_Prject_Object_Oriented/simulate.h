@@ -26,7 +26,7 @@ public:
 			time = currEvent.getTime();
 			
 			//check if event creates a change in the wire - if no, discard event
-			if (currEvent.getValue() == currEvent.GetEventWire()->getState()) {
+			if (currEvent.getValue() == currWire->getState()) {
 				continue;
 			}
 
@@ -37,7 +37,10 @@ public:
 				currWire->setState(currEvent.getValue());
 			}
 
-			for (auto d : currEvent.GetEventWire()->getDrives()) {
+			
+			//check to see if the event is the same as the value of the wire 
+			//because you already created that wire pointer so may as well use it instead of the event part 
+			for (auto d : currWire->getDrives()) {
 				char state = d->evaluate();
 				Wire* w = d->getOutput();
 				Event newEvent(w, count++, time + d->getDelay(), state);

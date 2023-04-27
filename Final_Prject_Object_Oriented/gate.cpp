@@ -33,9 +33,12 @@ void Gate::setInput(Wire* input) {
 //TODO: make Wire class complete (causing issues)
 char Gate::evaluate()const {
 	//return event or state (enum or char)
-	//and gate
+	//and gate 
+	//change the and and NAND gate instead of seeing if both Inputs are high, check if either are low because that would trump everything else, 
+	//than check if either are undefined (which you have) 
+	//then if none of those conditions are true, you know the wire is high
 	if (type == "AND") {
-		if (inputs[0]->getState() == '1' && inputs[1]->getState() == '1') {
+		if (inputs[0]->getState() == '0' || inputs[1]->getState() == '0') {
 			return '1';
 		}
 		else if (inputs[0]->getState() == 'X' || inputs[1]->getState() == 'X') {
@@ -59,11 +62,12 @@ char Gate::evaluate()const {
 
 	}
 	//or gate
+	//or gate change the checker which checks if both are low to check if either are undefined because that  would trump the low
 	if (type == "OR") {
 		if (inputs[0]->getState() == '1' || inputs[1]->getState() == '1') {
 			return '1';
 		}
-		else if (inputs[0]->getState() == '0' && inputs[1]->getState() == '0') {
+		else if (inputs[0]->getState() == 'X' || inputs[1]->getState() == 'X') {
 			return '0';
 		}
 		else {
@@ -90,8 +94,11 @@ char Gate::evaluate()const {
 	}
 
 	//nand gate
+	//change the and and NAND gate instead of seeing if both Inputs are high, check if either are low because that would trump everything else, 
+	//than check if either are undefined (which you have) 
+	//then if none of those conditions are true, you know the wire is high
 	if (type == "NAND") {
-		if (inputs[0]->getState() == '1' && inputs[1]->getState() == '1') {
+		if (inputs[0]->getState() == '0' || inputs[1]->getState() == '0') {
 			return '0';
 		}
 		else if (inputs[0]->getState() == 'X' || inputs[1]->getState() == 'X') {
@@ -121,6 +128,10 @@ char Gate::evaluate()const {
 		}
 
 	}
+
+	//nor gate
+	//In the nor do those exact same checks I said for the or gate 
+	//but just invert the outputs, and inverting undefined just returns undefined 
 
 	if (type == "NOR") {
 		if (inputs[0]->getState() == '0' && inputs[1]->getState() == '0') {
