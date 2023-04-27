@@ -67,12 +67,13 @@ int main() {
 
     //------------------------------- READ FILE --------------------------------------------------
     string garbage;
+    string circuitName;
     int w1;
     int w2;
     int w3;
     int wIndices[4] = { 0,0,0, 0};
 
-    circDoc >> garbage >> garbage;
+    circDoc >> garbage >> circuitName;
     circDoc >> inputType;
     // Loop through the input file to read in circuit components
     while (!circDoc.eof()) {
@@ -165,28 +166,18 @@ int main() {
             break;
         }
 
-        //if the vector element whose name is the same as name in line 149:
-        // wire = wireVctr.at(i);
-        // break;
-        //else:
-        //continue?
 
+        for (int i = 1; i < wireVctr.size(); i++) {
+            if (wireVctr.at(i) == nullptr){
+                continue;
+            }
+            else if ((name == wireVctr.at(i)->getName())) {
+                wire = wireVctr.at(i);
+                continue;
+            }
+        }
         
-        
 
-
-//        for (int i = 1; i < wireVctr.size(); i++) {
-//            if (name != wireVctr.at(i)->getName()) {
-//                correctWire = false;
-//            }
-//            else {
-//                correctWire = true;
-//
-//                wire = wireVctr.at(i);
-
-//                break;
-//            }
-//        }
         
         
         
@@ -212,18 +203,27 @@ int main() {
     s.print(time, wireVctr);
 
 
-
-
-
-    // Delete Wire objects
-    for (auto wire : wireVctr) {
-        delete wire;
+    if (time > 60) {
+        time = 60;
     }
+    
 
-    // Delete Gate objects
-    for (auto gate : gateVctr) {
-        delete gate;
-    }
+    cout << "Circuit Name : " << circuitName << endl;
+    cout << "Time elapsed: " << time << endl;
+
+
+
+
+
+    //// Delete Wire objects
+    //for (auto wire : wireVctr) {
+    //    delete wire;
+    //}
+
+    //// Delete Gate objects
+    //for (auto gate : gateVctr) {
+    //    delete gate;
+    //}
 
     return 0;
 }

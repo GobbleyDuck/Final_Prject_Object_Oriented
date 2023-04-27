@@ -107,10 +107,13 @@ char Gate::evaluate()const {
 	if (type == "XNOR") {
 
 		//true if both outputs are the same and false if diff
-		if (inputs[0]->getState() == inputs[1]->getState()) {
+		if (inputs[0]->getState() == 0 && inputs[1]->getState() == 0) {
 			return '1';
 		}
-		else if (inputs[0]->getState() == 'X' || inputs[1]->getState() == 'X') {
+		else if (inputs[0]->getState() == 'X' && inputs[1]->getState() == 'X') {
+			return 'X';
+		}
+		else if ((inputs[0]->getState() == 'X' && inputs[1]->getState() != '1') || inputs[0]->getState() == '1' && inputs[1]->getState() != 'X') {
 			return 'X';
 		}
 		else {

@@ -31,11 +31,7 @@ public:
 			}
 
 
-			//fill in gaps with setHistory()
-			//currently setting history to current value with time gaps - set to last known value until current time
-			//wire pointer to getEventWire
-			//time minus 1
-			//wire's value, not currEvent value
+
 			if (currEvent.GetEventWire() != nullptr) {
 				currWire->setHistory(currWire->getState(), currEvent.getTime() - 1);
 				currWire->setState(currEvent.getValue());
@@ -57,13 +53,19 @@ public:
 
 	void print(int time, vector<Wire*>& inputWires) {
 
-		time++;
-
+		this->time = time;
+		
 		for (int i = 1; i < inputWires.size(); i++) {
+			if (inputWires.at(i) == nullptr) {
+				continue;
+			}
 			inputWires.at(i)->setHistory(inputWires.at(i)->getState(), time);
 		}
 
 		for (int i = 1; i < inputWires.size(); i++) {
+			if (inputWires.at(i) == nullptr) {
+				continue;
+			}
 			if (inputWires.at(i)->getName() != "") {
 				cout << endl << inputWires.at(i)->getName() << "| ";
 				inputWires.at(i)->printHistory();
@@ -71,38 +73,34 @@ public:
 			}
 		}
 
-		if (time == 62) {
-			for (int i = 1; i <= time; i++) {
-				cout << "_";
-			}
-		}
-		else {
-			for (int i = 2; i <= time; i++) {
-				cout << "-";
-			}
-		}
 
-		for (int i = 0; i < time; i++) {
+		for (int i = 0; i < time + 1; i++) {
 			if (i > 60) {
 				break;
 			}
 			else if ((i % 5) == 0) {
-				cout << i / 5;
+				cout << i / 10;
 			}
 			else {
 				cout << "-";
 			}
+		}
 
+		cout << endl << "  ";
 
-			if (time < 59) {
-				cout << "--";
+		for (int i = 0; i < time + 1; i++) {
+			if (i > 60) {
+				break;
+			}
+			else if ((i % 5) == 0) {
+				cout << i % 10;
+			}
+			else {
+				cout << " ";
 			}
 		}
 
 		cout << endl;
-
-
-
 	}
 
 
